@@ -87,10 +87,31 @@
 char image_high;
 char image_low;
 int color_img;
-int *const test[] = {0xFF, 0x81, 0x81, 0x81, 0xFF};
+
 uint8_t i;
 uint8_t j;
 uint8_t line_char;
+
+
+typedef union {
+   unsigned int Mouse;
+   struct{
+       unsigned char x;
+       unsigned char y;
+       
+       
+   }Position;
+    
+    
+    
+}Cursor;
+
+
+Cursor Mouse_data;
+Cursor *PMouse_data = &Mouse_data;
+
+
+
 
 void ST7735S_80_x_160_init() {
     
@@ -98,7 +119,9 @@ void ST7735S_80_x_160_init() {
     write_command(SWRESET);//software reset
      __delay_ms(150);
     write_command(SLPOUT);//sleep mode out
-     __delay_ms(255);    
+     __delay_ms(255);   
+     
+     
 
     
     write_command(FRMCTR1);//Frame rate control in normal mode
@@ -179,6 +202,8 @@ void ST7735S_80_x_160_init() {
        write_command(DISPON);//
         __delay_ms(150);
        
+     PMouse_data->Position.x = 0;
+     PMouse_data->Position.y = 25;
        
     
 }
@@ -220,23 +245,25 @@ int s;
 }
 }
 
-void ST7735S_Print_Char(int color, char C_char)
+void ST7735S_Print_Char(int color, char C_char, uint8_t X_pos, uint8_t Y_pos)
 {
-       
+    PMouse_data->Position.y = 26+Y_pos;
+    PMouse_data->Position.x = 1+X_pos;
+    
     i=0;
     j=0;
     
     color_img = ~color;      
   write_command(CASET);
   write_data(0);
-  write_data(26);
+  write_data(PMouse_data->Position.y);
   write_data(0);
-  write_data(34);
+  write_data(PMouse_data->Position.y+8);
   write_command(RASET);
   write_data(0);
-  write_data(1);
+  write_data(PMouse_data->Position.x);
   write_data(0);
-  write_data(5);
+  write_data(PMouse_data->Position.x+4);
   
    
 
@@ -279,17 +306,19 @@ void ST7735S_Fill_display(int color)
    
     i=0;
     j=0;
-
+    
+     PMouse_data->Position.x = 26;
+     PMouse_data->Position.y = 1;
         
   color_img = ~color;      
   write_command(CASET);
   write_data(0);
-  write_data(25);//ST7735S column start in address 25
+  write_data(PMouse_data->Position.x);//ST7735S column start in address 25
   write_data(0);
-  write_data(127);
+  write_data(106);
   write_command(RASET);
   write_data(0);
-  write_data(1);
+  write_data(PMouse_data->Position.y);
   write_data(0);
   write_data(160);
   

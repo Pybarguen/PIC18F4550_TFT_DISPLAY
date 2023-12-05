@@ -74,7 +74,7 @@
 //#include "Image.h"
 int color_l;
 int color_h;
-//int *const test[] = {
+
 void main(void) 
 {
     
@@ -102,7 +102,12 @@ void main(void)
       ST7735S_Fill_display(Black_Color); 
        __delay_ms(1000);
       
-              ST7735S_Print_Char(Red_Color, '%');
+              ST7735S_Print_Char(Red_Color, '!', 0, 0);
+              ST7735S_Print_Char(Red_Color, '"', 5, 0);
+              ST7735S_Print_Char(Red_Color, '#', 10, 0);
+              ST7735S_Print_Char(Red_Color, '$', 15, 0);
+              ST7735S_Print_Char(Red_Color, '%', 20, 0);
+              ST7735S_Print_Char(Red_Color, '&', 25, 0);
     //ST7735S_Fill_image(Image_array);
       
     
