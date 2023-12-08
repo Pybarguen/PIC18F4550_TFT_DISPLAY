@@ -102,12 +102,18 @@ void main(void)
       ST7735S_Fill_display(Black_Color); 
        __delay_ms(1000);
       
-              ST7735S_Print_Char(Red_Color, '!', 0, 0);
-              ST7735S_Print_Char(Red_Color, '"', 5, 0);
-              ST7735S_Print_Char(Red_Color, '#', 10, 0);
-              ST7735S_Print_Char(Red_Color, '$', 15, 0);
-              ST7735S_Print_Char(Red_Color, '%', 20, 0);
-              ST7735S_Print_Char(Red_Color, '&', 25, 0);
+            
+              ST7735S_Print_Char(Red_Color, '%', 0, 0, 2);
+              ST7735S_Print_Char(Red_Color, '0', 7, 0, 2);
+              ST7735S_Print_Char(Red_Color, '1', 14, 0, 2);
+              ST7735S_Print_Char(Red_Color, '2', 21, 0, 2);
+              ST7735S_Print_Char(Red_Color, '3', 28, 0, 2);
+              ST7735S_Print_Char(Red_Color, '4', 35, 0, 2);
+              ST7735S_Print_Char(Red_Color, '5', 42, 0, 2);
+              ST7735S_Print_Char(Red_Color, '6', 49, 0, 2);
+              ST7735S_Print_Char(Red_Color, '7', 56, 0, 2);
+              ST7735S_Print_Char(Red_Color, '8', 63, 0, 2);
+              ST7735S_Print_Char(Red_Color, '9', 70, 0, 2);
     //ST7735S_Fill_image(Image_array);
       
     
