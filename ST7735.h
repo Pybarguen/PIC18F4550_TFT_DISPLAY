@@ -256,7 +256,7 @@ void ST7735S_Print_Char(int color, char C_char, uint8_t X_pos, uint8_t Y_pos, ui
    if(Size>1)
            {
                
-               PMouse_data->Position.y_end = PMouse_data->Position.y_start+15;
+               PMouse_data->Position.y_end = PMouse_data->Position.y_start+((8*Size)-1);
            }
    uint8_t Set_size =0; 
    i=0;
