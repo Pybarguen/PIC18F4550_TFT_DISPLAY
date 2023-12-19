@@ -317,8 +317,8 @@ void ST7735S_Print_Char(int color, char C_char, uint8_t X_pos, uint8_t Y_pos, ui
            
             
           }
-           line_char>>=1;
-          /*
+           
+          
           else{
               
           if(line_char & 1)
@@ -335,15 +335,29 @@ void ST7735S_Print_Char(int color, char C_char, uint8_t X_pos, uint8_t Y_pos, ui
           }
          
        
-          }    
-    */
-
+          }
+          line_char>>=1;
+  
   }
     
     
 }
 }
 
+void ST7735S_Print_String(int color, char text[], uint8_t X_pos, uint8_t Y_pos, uint8_t Size)
+{
+   char temporal_C;
+   uint8_t iterator = 0;
+   do
+    {
+       
+      temporal_C  =  text[iterator];  
+      iterator ++;
+      ST7735S_Print_Char(color, temporal_C, X_pos, Y_pos, 3);
+      X_pos +=7;
+    }while(temporal_C!='\0');
+    
+}
 void ST7735S_Fill_display(int color)
 {
    

@@ -67,6 +67,7 @@
 #define DCs  LATBbits.LATB3
 #define RES LATBbits.LATB4
 #include <xc.h>
+#include <stdio.h>
 #define _XTAL_FREQ 48000000
 #include "Fonts.h"
 #include "Pic18f4550_spi.h"
@@ -74,7 +75,7 @@
 //#include "Image.h"
 int color_l;
 int color_h;
-
+char character_buffer[];
 void main(void) 
 {
     
@@ -114,6 +115,8 @@ void main(void)
               ST7735S_Print_Char(Red_Color, '7', 56, 0, 3);
               ST7735S_Print_Char(Red_Color, '8', 63, 0, 3);
               ST7735S_Print_Char(Red_Color, '9', 70, 0, 3);
+              sprintf(character_buffer, "ABCDEFG");
+              ST7735S_Print_String(Red_Color, character_buffer, 0, 30, 3);
     //ST7735S_Fill_image(Image_array);
       
     
