@@ -104,19 +104,15 @@ void main(void)
        __delay_ms(1000);
       
             
-              ST7735S_Print_Char(Red_Color, '%', 0, 0, 3);
-              ST7735S_Print_Char(Red_Color, '0', 7, 0, 3);
-              ST7735S_Print_Char(Red_Color, '1', 14, 0, 3);
-              ST7735S_Print_Char(Red_Color, '2', 21, 0, 3);
-              ST7735S_Print_Char(Red_Color, '3', 28, 0, 3);
-              ST7735S_Print_Char(Red_Color, '4', 35, 0, 3);
-              ST7735S_Print_Char(Red_Color, '5', 42, 0, 3);
-              ST7735S_Print_Char(Red_Color, '6', 49, 0, 3);
-              ST7735S_Print_Char(Red_Color, '7', 56, 0, 3);
-              ST7735S_Print_Char(Red_Color, '8', 63, 0, 3);
-              ST7735S_Print_Char(Red_Color, '9', 70, 0, 3);
-              sprintf(character_buffer, "ABCDEFG");
-              ST7735S_Print_String(Red_Color, character_buffer, 0, 30, 3);
+             
+              sprintf(character_buffer, "abcdefghijklmnopqr");
+              ST7735S_Print_String(Blue_Color, character_buffer, 0, 0, 2);
+              sprintf(character_buffer, "stuvwxyzABCDEFGHIJK");
+              ST7735S_Print_String(Blue_Color, character_buffer, 0, 23, 2);
+               sprintf(character_buffer, "LMNOPQRSTUVWXYZ");
+              ST7735S_Print_String(Blue_Color, character_buffer, 0, 46, 2);
+              sprintf(character_buffer, "0123456789");
+              ST7735S_Print_String(Blue_Color, character_buffer, 0, 69, 2);
     //ST7735S_Fill_image(Image_array);
       
     
