@@ -114,11 +114,24 @@ Cursor Mouse_data;
 Cursor *PMouse_data = &Mouse_data;
 
 
+void write_color(int data)
+{
+   
+   
+    SSPBUF =  data;
+    while(SSPSTATbits.BF == 0);
+    while(PIR1bits.SSPIF == 0);
+    PIR1bits.SSPIF = 0;
+     
+     
+    
+    
+}
 
 
 void ST7735S_80_x_160_init() {
     
-    
+     DCs = 0; 
     write_command(SWRESET);//software reset
      __delay_ms(150);
     write_command(SLPOUT);//sleep mode out
@@ -126,18 +139,22 @@ void ST7735S_80_x_160_init() {
      
      
 
-    
+    DCs = 0; 
     write_command(FRMCTR1);//Frame rate control in normal mode
+    DCs = 1; 
     write_data(0x01);
     write_data(0x2C);
     write_data(0x2D);    
-    
+    DCs = 0; 
     write_command(FRMCTR2);//Frame rate control in idle mode
+    DCs = 1; 
     write_data(0x01);
     write_data(0x2C);
     write_data(0x2D);
     
+    DCs = 0; 
     write_command(FRMCTR3);//Frame rate control in Partial mode
+    DCs = 1; 
     write_data(0x01);
     write_data(0x2C);
     write_data(0x2D);
@@ -145,61 +162,81 @@ void ST7735S_80_x_160_init() {
     write_data(0x2C);
     write_data(0x2D);
     
+    DCs = 0; 
     write_command(INVCTR);//Display inversion control
+    DCs = 1; 
     write_data(0x07);//Frame version in all modes
       
+    DCs = 0; 
     write_command(PWCTR1);//Power control 1
+    DCs = 1; 
+    write_data(0x02);//4.7V
+    write_data(0x02);//1.5uA
+    write_data(0x84);//Auto mode
     
-     write_data(0x02);//4.7V
-       write_data(0x02);//1.5uA
-       write_data(0x84);//Auto mode
+    DCs = 0; 
+    write_command(PWCTR2);
+    DCs = 1; 
+    write_data(0xC5);//VGH VGL
+     
+    DCs = 0; 
+    write_command(PWCTR3);
+    DCs = 1; 
+    write_data(0x0A);//
+    write_data(0x00);//
+     
+    DCs = 0; 
+    write_command(PWCTR4);
+    DCs = 1; 
+    write_data(0x8A);//
+    write_data(0x2A);//
     
-      write_command(PWCTR2);
-      write_data(0xC5);//VGH VGL
+    DCs = 0; 
+    write_command(PWCTR5);
+    DCs = 1;
+    write_data(0x8A);//
+    write_data(0xEE);//
       
-         write_command(PWCTR3);
-      write_data(0x0A);//
-       write_data(0x00);//
-       
-       write_command(PWCTR4);
-      write_data(0x8A);//
-       write_data(0x2A);//
-               
-       write_command(PWCTR5);
-      write_data(0x8A);//
-       write_data(0xEE);//
-      
-      
-      write_command(VMCTR1);
-      write_data(0x0E);//
-      
-      write_command(INVOFF);//
-      
-      write_command(COLMOD);//RGB pixel format   
-      write_data(0x05);//16bit pixel
+    DCs = 0;   
+    write_command(VMCTR1);
+    DCs = 1;
+    write_data(0x0E);//
+     
+    
+    DCs = 0;  
+    write_command(INVOFF);//      
+    write_command(COLMOD);//RGB pixel format
+    DCs = 1;
+    write_data(0x05);//16bit pixel
       
       
-      
-      write_command(MADCTL);//Memory access control
-      write_data(0b01011000);//RGB mode       
+    DCs = 0;    
+    write_command(MADCTL);//Memory access control
+    DCs = 1;
+    write_data(0b01011000);//RGB mode       
       
 
       
       
      
       __delay_ms(10);
+      DCs = 0; 
       write_command(GMCTRP1);//RGB pixel format 
+      DCs = 1;
        write_data(0x02);write_data(0x1C);write_data(0x07);write_data(0x12);
        write_data(0x37);write_data(0x32);write_data(0x29);write_data(0x2D);
        write_data(0x29);write_data(0x25);write_data(0x2B);write_data(0x39);
        write_data(0x00);write_data(0x01);write_data(0x03);write_data(0x10);
        
-       
+       DCs = 0;
        write_command(GMCTRN1);//RGB pixel format 
+       DCs = 1;
        write_data(0x03);write_data(0x1D);write_data(0x07);write_data(0x06);
        write_data(0x2E);write_data(0x2C);write_data(0x29);write_data(0x2D);
        write_data(0x2E);write_data(0x2E);write_data(0x37);write_data(0x3F);
        write_data(0x00);write_data(0x00);write_data(0x02);write_data(0x10);
+       
+        DCs = 0;
        write_command(NORON);//
         __delay_ms(10);
        write_command(DISPON);//
@@ -218,13 +255,16 @@ void ST7735S_Fill_rect()
 int s;
  
        
-       
+  DCs = 0;      
   write_command(CASET);
+  DCs = 1;  
   write_data(0);
   write_data(25);//ST7735S column start in address 25
   write_data(0);
   write_data(127);
+  DCs = 0; 
   write_command(RASET);
+  DCs = 1;
   write_data(0);
   write_data(1);
   write_data(0);
@@ -262,20 +302,24 @@ void ST7735S_Print_Char(int color, char C_char, uint8_t X_pos, uint8_t Y_pos, ui
    i=0;
    j=0;
     
-  color_img = ~color;      
+  color_img = ~color; 
+  DCs = 0;
   write_command(CASET);
+  DCs = 1;
   write_data(0);
   write_data(PMouse_data->Position.y_start);
   write_data(0);
   write_data(PMouse_data->Position.y_end);
+  DCs = 0;
   write_command(RASET);
+  DCs = 1;
   write_data(0);
   write_data(PMouse_data->Position.x_start);
   write_data(0);
   write_data(PMouse_data->Position.x_end);
   
    
-
+  DCs = 0;
   write_command(RAMWR); // Write to RAM
    CCS = 0;
     DCs = 1; 
@@ -367,23 +411,27 @@ void ST7735S_Fill_display(int color)
      PMouse_data->Position.y_start = 26;
      PMouse_data->Position.x_start = 1;
         
-  color_img = ~color;      
+  color_img = ~color;   
+  DCs = 0;
   write_command(CASET);
+  DCs = 1;
   write_data(0);
   write_data(PMouse_data->Position.y_start);//ST7735S column start in address 25
   write_data(0);
   write_data(106);
+  DCs = 0;
   write_command(RASET);
+  DCs = 1;
   write_data(0);
   write_data(PMouse_data->Position.x_start);
   write_data(0);
   write_data(160);
   
    
-
+  DCs = 0;
   write_command(RAMWR); // Write to RAM
-   CCS = 0;
-    DCs = 1; 
+  CCS = 0;
+  DCs = 1; 
     for(i=0; i<=128; i++)
   {
       for(j=0; j<=160; j++)

@@ -147,7 +147,7 @@ void Spi_clock_mode(enum Spi_master_clock_modes data)
 
 void write_command(int command)
 {
-    DCs = 0; 
+ 
      CCS = 0;
     SSPBUF =  command;
     while(SSPSTATbits.BF == 0);
@@ -163,7 +163,7 @@ void write_command(int command)
 void write_data(int data)
 {
    
-    DCs = 1; 
+    
      CCS = 0;
     SSPBUF =  data;
     while(SSPSTATbits.BF == 0);
@@ -175,19 +175,6 @@ void write_data(int data)
     
 }
 
-void write_color(int data)
-{
-   
-   
-    SSPBUF =  data;
-    while(SSPSTATbits.BF == 0);
-    while(PIR1bits.SSPIF == 0);
-    PIR1bits.SSPIF = 0;
-     
-     
-    
-    
-}
 
 
 #endif	/* XC_HEADER_TEMPLATE_H */
