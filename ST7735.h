@@ -76,7 +76,7 @@
 
 
 //16bits Colors
-#define Red_Color 0xF800
+#define Red_Color 0x07FF
 #define Green_Color 0xF81F
 #define Blue_Color 0xFFE0
 #define Black_Color 0x0000
@@ -241,10 +241,126 @@ void ST7735S_80_x_160_init() {
         __delay_ms(10);
        write_command(DISPON);//
         __delay_ms(150);
+        
+        DCs = 0;   
+        write_command(VMCTR1);
+        DCs = 1;
+        write_data(0x0E);//
        
     
        
     
+}
+
+void ST7735_128_x_160_init() {
+    
+     DCs = 0; 
+    write_command(SWRESET);//software reset
+     __delay_ms(150);
+    write_command(SLPOUT);//sleep mode out
+     __delay_ms(255);  
+     
+     
+     DCs = 0; 
+    write_command(FRMCTR1);//Frame rate control in normal mode
+    DCs = 1; 
+    write_data(0x01);
+    write_data(0x2C);
+    write_data(0x2D);    
+    DCs = 0; 
+   
+    write_command(FRMCTR2);//Frame rate control in idle mode
+    DCs = 1; 
+    write_data(0x01);
+    write_data(0x2C);
+    write_data(0x2D);    
+    DCs = 0; 
+   
+    write_command(FRMCTR3);//Frame rate control in Partial mode
+    DCs = 1; 
+    write_data(0x01);
+    write_data(0x2C);
+    write_data(0x2D);
+    write_data(0x01);
+    write_data(0x2C);
+    write_data(0x2D);
+    DCs = 0; 
+    write_command(INVCTR);//Display inversion control
+    DCs = 1; 
+    write_data(0x07);//Frame version in all modes
+    DCs = 0; 
+    write_command(PWCTR1);//Power control 1
+    DCs = 1; 
+    write_data(0x02);//4.7V
+    write_data(0x02);//1.5uA
+    DCs = 0; 
+    write_command(PWCTR2);
+    DCs = 1; 
+    write_data(0xC5);//VGH VGL
+    
+    DCs = 0; 
+    write_command(PWCTR3);
+    DCs = 1; 
+    write_data(0x0A);//
+    write_data(0x00);//
+    
+    DCs = 0; 
+    write_command(PWCTR4);
+    DCs = 1; 
+    write_data(0x8A);//
+    write_data(0x2A);//
+    
+    DCs = 0; 
+    write_command(PWCTR5);
+    DCs = 1;
+    write_data(0x8A);//
+    write_data(0xEE);//
+    
+      
+    DCs = 0;  
+    write_command(INVOFF);//  
+     write_command(COLMOD);//RGB pixel format
+    DCs = 1;
+    write_data(0x05);//16bit pixel
+    
+    DCs = 0;    
+    write_command(MADCTL);//Memory access control
+    DCs = 1;
+    write_data(0b11110100);//RGB mode   
+    
+      __delay_ms(10);
+      DCs = 0; 
+      write_command(GMCTRP1);//RGB pixel format 
+      DCs = 1;
+       write_data(0x02);write_data(0x1C);write_data(0x07);write_data(0x12);
+       write_data(0x37);write_data(0x32);write_data(0x29);write_data(0x2D);
+       write_data(0x29);write_data(0x25);write_data(0x2B);write_data(0x39);
+       write_data(0x00);write_data(0x01);write_data(0x03);write_data(0x10);
+       
+       DCs = 0;
+       write_command(GMCTRN1);//RGB pixel format 
+       DCs = 1;
+       write_data(0x03);write_data(0x1D);write_data(0x07);write_data(0x06);
+       write_data(0x2E);write_data(0x2C);write_data(0x29);write_data(0x2D);
+       write_data(0x2E);write_data(0x2E);write_data(0x37);write_data(0x3F);
+       write_data(0x00);write_data(0x00);write_data(0x02);write_data(0x10);
+       
+        DCs = 0;
+       write_command(NORON);//
+        __delay_ms(10);
+       write_command(DISPON);//
+        __delay_ms(150);
+        
+        DCs = 0;   
+        write_command(VMCTR1);
+        DCs = 1;
+        write_data(0x0E);//
+       
+      
+    
+     
+    
+
 }
 
 void ST7735S_Fill_rect()
@@ -333,7 +449,7 @@ void ST7735S_Print_Char(int color, char C_char, uint8_t X_pos, uint8_t Y_pos, ui
           if(Size>1)
           {
             if(line_char & 1)
-            {    color_img = ~Red_Color;
+            {    color_img = ~color;
                 for(Set_size =0; Set_size<=(Size-1); Set_size++)
                 
                 {                 
