@@ -98,7 +98,7 @@ void main(void)
     CCS = 1;
     DCs = 0;
    
-    ST7735S_80_x_160_init();
+    ST7735S_Init(ST7735_128_x_160);
    
       ST7735S_Fill_display(Black_Color); 
        __delay_ms(1000);
@@ -108,11 +108,11 @@ void main(void)
               sprintf(character_buffer, "abcdefghijklmnopqr");
               ST7735S_Print_String(Blue_Color, character_buffer, 0, 0, 2);
               sprintf(character_buffer, "stuvwxyzABCDEFGHIJK");
-              ST7735S_Print_String(Blue_Color, character_buffer, 0, 23, 2);
+              ST7735S_Print_String(Red_Color , character_buffer, 0, 23, 2);
                sprintf(character_buffer, "LMNOPQRSTUVWXYZ");
               ST7735S_Print_String(Blue_Color, character_buffer, 0, 46, 2);
               sprintf(character_buffer, "0123456789");
-              ST7735S_Print_String(Blue_Color, character_buffer, 0, 69, 2);
+              ST7735S_Print_String(Red_Color , character_buffer, 0, 69, 2);
     //ST7735S_Fill_image(Image_array);
       
     

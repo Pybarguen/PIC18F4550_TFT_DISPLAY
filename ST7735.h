@@ -113,6 +113,15 @@ typedef union {
 Cursor Mouse_data;
 Cursor *PMouse_data = &Mouse_data;
 
+enum DISPLAY_MODEL{
+    
+    ST7735S_80_x_160,
+    ST7735_128_x_160
+    
+    
+};
+
+
 
 void write_color(int data)
 {
@@ -363,6 +372,22 @@ void ST7735_128_x_160_init() {
 
 }
 
+
+void ST7735S_Init(enum DISPLAY_MODEL data)
+{
+    if(data == ST7735S_80_x_160)
+    {
+        ST7735S_80_x_160_init();
+        
+    }
+    else if(data == ST7735_128_x_160)
+    {
+        
+        ST7735_128_x_160_init();
+    }
+    
+    
+}
 void ST7735S_Fill_rect()
 {
     
