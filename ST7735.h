@@ -538,7 +538,7 @@ void ST7735S_Print_String(int color, char text[], uint8_t X_pos, uint8_t Y_pos, 
        
       temporal_C  =  text[iterator];  
       iterator ++;
-      ST7735S_Print_Char(color, temporal_C, X_pos, Y_pos, 3);
+      ST7735S_Print_Char(color, temporal_C, X_pos, Y_pos, Size);
       X_pos +=7;
     }while(temporal_C!='\0');
     
