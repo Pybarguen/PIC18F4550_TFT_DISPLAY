@@ -121,6 +121,7 @@ enum DISPLAY_MODEL{
     
 };
 
+enum DISPLAY_MODEL TFT_MODEL;
 
 
 void write_color(int data)
@@ -548,9 +549,21 @@ void ST7735S_Fill_display(int color)
    
     i=0;
     j=0;
-    
+    if(TFT_MODEL==0)
+    {
      PMouse_data->Position.y_start = 26;
      PMouse_data->Position.x_start = 1;
+     PMouse_data->Position.y_end = PMouse_data->Position.y_start+80;
+     PMouse_data->Position.x_end = PMouse_data->Position.x_start+159;
+    }
+     if(TFT_MODEL==1)
+    {
+     PMouse_data->Position.y_start = 26;
+     PMouse_data->Position.x_start = 1;
+     PMouse_data->Position.y_end = PMouse_data->Position.y_start+80;
+     PMouse_data->Position.x_end = PMouse_data->Position.x_start+159;
+    }
+    
         
   color_img = ~color;   
   DCs = 0;
@@ -559,14 +572,14 @@ void ST7735S_Fill_display(int color)
   write_data(0);
   write_data(PMouse_data->Position.y_start);//ST7735S column start in address 25
   write_data(0);
-  write_data(106);
+  write_data(PMouse_data->Position.y_end);
   DCs = 0;
   write_command(RASET);
   DCs = 1;
   write_data(0);
   write_data(PMouse_data->Position.x_start);
   write_data(0);
-  write_data(160);
+  write_data(PMouse_data->Position.x_end);
   
    
   DCs = 0;
