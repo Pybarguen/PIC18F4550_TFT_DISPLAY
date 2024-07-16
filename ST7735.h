@@ -558,9 +558,9 @@ void ST7735S_Fill_display(int color)
     }
      if(TFT_MODEL==1)
     {
-     PMouse_data->Position.y_start = 26;
+     PMouse_data->Position.y_start = 0;
      PMouse_data->Position.x_start = 1;
-     PMouse_data->Position.y_end = PMouse_data->Position.y_start+80;
+     PMouse_data->Position.y_end = PMouse_data->Position.y_start+12;
      PMouse_data->Position.x_end = PMouse_data->Position.x_start+159;
     }
     
@@ -648,9 +648,82 @@ void ST7735S_Fill_image(int Image_arr[])
   write_color(color_img & 0xFF);
   }
 }
-  
+ 
+void ST7735_Progress_Bar(uint8_t X_pos, uint8_t Y_pos, uint8_t Width, uint8_t Height)
+{
+    
+    
+     if(TFT_MODEL==0)
+    {
+     PMouse_data->Position.x_start = 1+X_pos;   
+     PMouse_data->Position.y_start = 26+Y_pos;  
+      PMouse_data->Position.x_end = PMouse_data->Position.x_start+Width;
+     PMouse_data->Position.y_end = PMouse_data->Position.y_start+Height;
+    
+    }
+     
+        DCs = 0;
+        write_command(CASET);
+        DCs = 1;
+        write_data(0);
+        write_data(PMouse_data->Position.y_start);//ST7735S column start in address 25
+        write_data(0);
+        write_data(PMouse_data->Position.y_end);
+        DCs = 0;
+        write_command(RASET);
+        DCs = 1;
+        write_data(0);
+        write_data(PMouse_data->Position.x_start);
+        write_data(0);
+        write_data(PMouse_data->Position.x_end);
 
-   
+
+        DCs = 0;
+        write_command(RAMWR); // Write to RAM
+        CCS = 0;
+        DCs = 1; 
+    
+     for(i=0; i<=Width; i++)
+     {
+         for(j=0; j<=Height; j++)
+         {
+             if(i==0)
+             {
+                  color_img =  Red_Color;
+                    write_color(color_img >> 8);  
+                    write_color(color_img & 0xFF);
+                      __delay_ms(500);
+
+             }
+             else{
+                    color_img = Green_Color;
+                    write_color(color_img >> 8);  
+                    write_color(color_img & 0xFF);
+                    __delay_ms(500);
+             }
+             }
+             
+         
+         
+         
+         
+     }
+     
+     /*
+     if(TFT_MODEL==1)
+         
+    {
+     PMouse_data->Position.y_start = 26;
+     PMouse_data->Position.x_start = 1;
+     PMouse_data->Position.y_end = PMouse_data->Position.y_start+80;
+     PMouse_data->Position.x_end = PMouse_data->Position.x_start+159;
+    }
+      * */
+    
+    
+    
+    
+}
    
 
 
