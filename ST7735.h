@@ -687,19 +687,18 @@ void ST7735_Progress_Bar(uint8_t X_pos, uint8_t Y_pos, uint8_t Width, uint8_t He
      {
          for(j=0; j<=Height; j++)
          {
-             if(i==0)
+             if(j==0 | i ==0 | i == Width | j == Height)
              {
                   color_img =  Red_Color;
                     write_color(color_img >> 8);  
                     write_color(color_img & 0xFF);
-                      __delay_ms(500);
-
+                    
              }
              else{
                     color_img = Green_Color;
                     write_color(color_img >> 8);  
                     write_color(color_img & 0xFF);
-                    __delay_ms(500);
+                  
              }
              }
              
