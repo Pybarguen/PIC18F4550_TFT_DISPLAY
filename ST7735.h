@@ -649,16 +649,19 @@ void ST7735S_Fill_image(int Image_arr[])
   }
 }
  
-void ST7735_Progress_Bar(uint8_t X_pos, uint8_t Y_pos, uint8_t Width, uint8_t Height)
+void ST7735_Progress_Bar(ProgressBar ProgressBarObj)
+
 {
     
-    
+   
+  
+   
      if(TFT_MODEL==0)
     {
-     PMouse_data->Position.x_start = 1+X_pos;   
-     PMouse_data->Position.y_start = 26+Y_pos;  
-      PMouse_data->Position.x_end = PMouse_data->Position.x_start+Width;
-     PMouse_data->Position.y_end = PMouse_data->Position.y_start+Height;
+     PMouse_data->Position.x_start = 1+ ProgressBarObj.Coordinates.x_start;   
+     PMouse_data->Position.y_start = 26+ ProgressBarObj.Coordinates.y_start; 
+     PMouse_data->Position.x_end = ( PMouse_data->Position.x_start + ProgressBarObj.Coordinates.Widht);
+     PMouse_data->Position.y_end = ( PMouse_data->Position.y_start + ProgressBarObj.Coordinates.Height);
     
     }
      
@@ -683,11 +686,11 @@ void ST7735_Progress_Bar(uint8_t X_pos, uint8_t Y_pos, uint8_t Width, uint8_t He
         CCS = 0;
         DCs = 1; 
     
-     for(i=0; i<=Width; i++)
+     for(i=0; i<=ProgressBarObj.Coordinates.Widht; i++)
      {
-         for(j=0; j<=Height; j++)
+         for(j=0; j<=ProgressBarObj.Coordinates.Height; j++)
          {
-             if(j==0 | i ==0 | i == Width | j == Height)
+             if(j==0 | i ==0 | i ==  ProgressBarObj.Coordinates.Widht| j == ProgressBarObj.Coordinates.Height )
              {
                   color_img =  Red_Color;
                     write_color(color_img >> 8);  
