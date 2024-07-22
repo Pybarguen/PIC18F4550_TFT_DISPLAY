@@ -32,6 +32,14 @@
 #define	Fonts.h
 #include <xc.h> // include processor files - each processor file is guarded.
 
+
+//16bits Colors
+#define Red_Color 0x07FF
+#define Green_Color 0xF81F
+#define Blue_Color 0xFFE0
+#define Black_Color 0x0000
+#define White_Color 0xFFFF
+
 char *const font[126][5] = 
 {
 0x00, 0x00, 0x00, 0x00, 0x00,//0
