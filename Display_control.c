@@ -62,35 +62,30 @@
 
 // #pragma config statements should precede project file includes.
 // Use project enums instead of #define for ON and OFF.
-typedef union {
-   unsigned long Parameters;
-   struct{
-       unsigned char x_start;
-       unsigned char y_start;
-       unsigned char Widht;
-       unsigned char Height;
-       
-       
-       
-   }Coordinates;
-    
-    
-    
-}ProgressBar;
-  
-ProgressBar ProgressBar_ADC;
+
 
 
 #define CCS LATBbits.LATB2
 #define DCs  LATBbits.LATB3
 #define RES LATBbits.LATB4
+
+
 #include <xc.h>
 #include <stdio.h>
 #define _XTAL_FREQ 48000000
 #include "Fonts.h"
 #include "Pic18f4550_spi.h"
+#include "St7735_Widgets.h"
 #include "ST7735.h"
+
 //#include "Image.h"
+
+ 
+ProgressBar ProgressBar_ADC = {.Coordinates.x_start = 0, .Coordinates.y_start = 0,
+                               .Coordinates.Widht = 50, .Coordinates.Height =10   };
+
+ProgressBar ProgressBar_Temp = {.Coordinates.x_start = 50, .Coordinates.y_start = 50,
+                               .Coordinates.Widht = 40, .Coordinates.Height =5   };
 
 char character_buffer[];
 
@@ -98,11 +93,6 @@ void main(void)
 {
     
  
-    ProgressBar_ADC.Coordinates.x_start = 0;
-    ProgressBar_ADC.Coordinates.y_start = 0;
-    ProgressBar_ADC.Coordinates.Widht = 50;
-    ProgressBar_ADC.Coordinates.Height = 10;
-
 
 
     
@@ -145,6 +135,7 @@ void main(void)
       */
     
       ST7735_Progress_Bar(ProgressBar_ADC);
+      ST7735_Progress_Bar(ProgressBar_Temp);
           
     
       

@@ -648,7 +648,8 @@ void ST7735S_Fill_image(int Image_arr[])
   write_color(color_img & 0xFF);
   }
 }
- 
+#ifdef St7735_Widgets
+
 void ST7735_Progress_Bar(ProgressBar ProgressBarObj)
 
 {
@@ -710,6 +711,12 @@ void ST7735_Progress_Bar(ProgressBar ProgressBarObj)
          
          
      }
+        
+        }
+
+
+#endif
+
      
      /*
      if(TFT_MODEL==1)
@@ -725,8 +732,7 @@ void ST7735_Progress_Bar(ProgressBar ProgressBarObj)
     
     
     
-}
-   
+
 
 
 
