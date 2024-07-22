@@ -62,6 +62,24 @@
 
 // #pragma config statements should precede project file includes.
 // Use project enums instead of #define for ON and OFF.
+typedef union {
+   unsigned long Parameters;
+   struct{
+       unsigned char x_start;
+       unsigned char y_start;
+       unsigned char Widht;
+       unsigned char Height;
+       
+       
+       
+   }Coordinates;
+    
+    
+    
+}ProgressBar;
+  
+ProgressBar ProgressBar_ADC;
+
 
 #define CCS LATBbits.LATB2
 #define DCs  LATBbits.LATB3
@@ -73,15 +91,20 @@
 #include "Pic18f4550_spi.h"
 #include "ST7735.h"
 //#include "Image.h"
-int color_l;
-int color_h;
+
 char character_buffer[];
+
 void main(void) 
 {
     
-    
-    
-    
+ 
+    ProgressBar_ADC.Coordinates.x_start = 0;
+    ProgressBar_ADC.Coordinates.y_start = 0;
+    ProgressBar_ADC.Coordinates.Widht = 50;
+    ProgressBar_ADC.Coordinates.Height = 10;
+
+
+
     
     //SPI
    Spi_init();//start spi interface
@@ -104,7 +127,7 @@ void main(void)
        
       
             
-             
+             /*
               sprintf(character_buffer, "abcdefghijklmnopqr");
               ST7735S_Print_String(Blue_Color, character_buffer, 0, 0, 2);
               sprintf(character_buffer, "stuvwxyzABCDEFGHIJK");
@@ -118,7 +141,11 @@ void main(void)
               sprintf(character_buffer, "0123456789");
               ST7735S_Print_String(Red_Color , character_buffer, 0, 69, 2);
     //ST7735S_Fill_image(Image_array);
-      
+              
+      */
+    
+      ST7735_Progress_Bar(ProgressBar_ADC);
+          
     
       
     
