@@ -645,19 +645,19 @@ void ST7735S_Fill_image(int Image_arr[])
 }
 #ifdef St7735_Widgets
 
-void ST7735_Progress_Bar(ProgressBar ProgressBarObj)
+void ST7735_Progress_Bar(ProgressBar *ProgressBarObj)
 
 {
     
    
-  
-   
+    ProgressBarObj->Coordinates.x_start = 0;
+ 
      if(TFT_MODEL==0)
     {
-     PMouse_data->Position.x_start = 1+ ProgressBarObj.Coordinates.x_start;   
-     PMouse_data->Position.y_start = 26+ ProgressBarObj.Coordinates.y_start; 
-     PMouse_data->Position.x_end = ( PMouse_data->Position.x_start + ProgressBarObj.Coordinates.Widht);
-     PMouse_data->Position.y_end = ( PMouse_data->Position.y_start + ProgressBarObj.Coordinates.Height);
+     PMouse_data->Position.x_start = 1+ ProgressBarObj->Coordinates.x_start;   
+     PMouse_data->Position.y_start = 26+ ProgressBarObj->Coordinates.y_start; 
+     PMouse_data->Position.x_end = ( PMouse_data->Position.x_start + ProgressBarObj->Coordinates.Widht);
+     PMouse_data->Position.y_end = ( PMouse_data->Position.y_start + ProgressBarObj->Coordinates.Height);
     
     }
      
@@ -682,19 +682,19 @@ void ST7735_Progress_Bar(ProgressBar ProgressBarObj)
         CCS = 0;
         DCs = 1; 
     
-     for(i=0; i<=ProgressBarObj.Coordinates.Widht; i++)
+     for(i=0; i<=ProgressBarObj->Coordinates.Widht; i++)
      {
-         for(j=0; j<=ProgressBarObj.Coordinates.Height; j++)
+         for(j=0; j<=ProgressBarObj->Coordinates.Height; j++)
          {
-             if(j==0 | i ==0 | i ==  ProgressBarObj.Coordinates.Widht| j == ProgressBarObj.Coordinates.Height )
+             if(j==0 | i ==0 | i ==  ProgressBarObj->Coordinates.Widht| j == ProgressBarObj->Coordinates.Height )
              {
-                  color_img =  ProgressBarObj.Coordinates.Color_border;
+                  color_img =  ProgressBarObj->Coordinates.Color_border;
                     write_color(color_img >> 8);  
                     write_color(color_img & 0xFF);
                     
              }
              else{
-                    color_img = ProgressBarObj.Coordinates.Color_background;
+                    color_img = ProgressBarObj->Coordinates.Color_background;
                     write_color(color_img >> 8);  
                     write_color(color_img & 0xFF);
                   
@@ -706,9 +706,14 @@ void ST7735_Progress_Bar(ProgressBar ProgressBarObj)
          
          
      }
-        
+      
         }
 
+void ST7735_Animating_ProgressBar()
+{
+    
+    ;;
+}
 
 #endif
 

@@ -135,7 +135,7 @@ void main(void)
               
       */
     
-      ST7735_Progress_Bar(ProgressBar_ADC);
+      ST7735_Progress_Bar(&ProgressBar_ADC);
       //ST7735_Progress_Bar(ProgressBar_Temp);
           
     
