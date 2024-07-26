@@ -32,6 +32,7 @@
 #define	ST7735_H
 #include <xc.h> // include processor files - each processor file is guarded.  
 #include "Fonts.h"
+#include "St7735_Widgets.h"
 //COMMANDS
 #define SWRESET 0x01//Software reset
 #define SLPIN   0x10//Sleep in and booster off
@@ -75,12 +76,6 @@
 #define PWCTR6  0xFC
 
 
-//16bits Colors
-#define Red_Color 0x07FF
-#define Green_Color 0xF81F
-#define Blue_Color 0xFFE0
-#define Black_Color 0x0000
-#define White_Color 0xFFFF
 
 #include <stdint.h>
 
@@ -693,13 +688,13 @@ void ST7735_Progress_Bar(ProgressBar ProgressBarObj)
          {
              if(j==0 | i ==0 | i ==  ProgressBarObj.Coordinates.Widht| j == ProgressBarObj.Coordinates.Height )
              {
-                  color_img =  Red_Color;
+                  color_img =  ProgressBarObj.Coordinates.Color_border;
                     write_color(color_img >> 8);  
                     write_color(color_img & 0xFF);
                     
              }
              else{
-                    color_img = Green_Color;
+                    color_img = ProgressBarObj.Coordinates.Color_background;
                     write_color(color_img >> 8);  
                     write_color(color_img & 0xFF);
                   

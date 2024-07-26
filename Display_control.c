@@ -82,11 +82,12 @@
 
  
 ProgressBar ProgressBar_ADC = {.Coordinates.x_start = 0, .Coordinates.y_start = 0,
-                               .Coordinates.Widht = 50, .Coordinates.Height =10   };
+                               .Coordinates.Widht = 50, .Coordinates.Height =10, Black_Color, White_Color};
 
+/*
 ProgressBar ProgressBar_Temp = {.Coordinates.x_start = 50, .Coordinates.y_start = 50,
                                .Coordinates.Widht = 40, .Coordinates.Height =5   };
-
+*/
 char character_buffer[];
 
 void main(void) 
@@ -135,7 +136,7 @@ void main(void)
       */
     
       ST7735_Progress_Bar(ProgressBar_ADC);
-      ST7735_Progress_Bar(ProgressBar_Temp);
+      //ST7735_Progress_Bar(ProgressBar_Temp);
           
     
       

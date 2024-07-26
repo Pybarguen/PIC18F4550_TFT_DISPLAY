@@ -34,12 +34,14 @@
 #include <xc.h> // include processor files - each processor file is guarded. 
 
 typedef union {
-   unsigned long Parameters;
+    double Parameters;
    struct{
        unsigned char x_start;
        unsigned char y_start;
        unsigned char Widht;
        unsigned char Height;
+       int Color_border;
+       int Color_background;
        
        
        
