@@ -89,6 +89,8 @@ ProgressBar ProgressBar_ADC = {.Coordinates.x_start = 0, .Coordinates.y_start = 
 ProgressBar ProgressBar_Temp = {.Coordinates.x_start = 50, .Coordinates.y_start = 50,
                                .Coordinates.Widht = 40, .Coordinates.Height =5   };
 */
+Animation_Progress ProgressBar_animation;
+  
 char character_buffer[];
 
 void main(void) 
@@ -115,7 +117,7 @@ void main(void)
    
     ST7735S_Init(ST7735_128_x_160);
    
-      ST7735S_Fill_display(Black_Color); 
+      ST7735S_Fill_display(White_Color); 
        
       
             
@@ -137,7 +139,11 @@ void main(void)
       */
      
       ST7735_Progress_Bar(&ProgressBar_ADC);
-    ST7735_Animating_ProgressBar(&ProgressBar_ADC, 550);
+      
+  
+ 
+    
+     
     
          
     
@@ -151,7 +157,11 @@ void main(void)
    
    while(1)
    {
-       
+         sprintf(character_buffer, "its ok");
+         ST7735_Animating_ProgressBar(&ProgressBar_ADC, 400, character_buffer);
+          ST7735_Animating_ProgressBar(&ProgressBar_ADC, 300, character_buffer);
+         
+         //ST7735_Animating_ProgressBar(&ProgressBar_ADC, 300, character_buffer);
        
        
        
