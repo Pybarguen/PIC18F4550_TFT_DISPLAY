@@ -82,11 +82,12 @@
 char image_high;
 char image_low;
 int color_img;
-
+unsigned long k;
 uint8_t i;
 uint8_t j;
 uint8_t line_char;
-
+ unsigned long r = 1023;
+        unsigned long s = 470;
 
 typedef union {
    unsigned long Mouse;
@@ -218,7 +219,7 @@ void ST7735S_80_x_160_init() {
     DCs = 0;    
     write_command(MADCTL);//Memory access control
     DCs = 1;
-    write_data(0b01011000);//RGB mode       
+    write_data(0b11111100);//RGB mode       
       
 
       
@@ -331,7 +332,8 @@ void ST7735_128_x_160_init() {
     DCs = 0;    
     write_command(MADCTL);//Memory access control
     DCs = 1;
-    write_data(0b11110100);//RGB mode   
+    //write_data(0b01001000);//RGB mode   
+      write_data(0b11110100);//RGB mode
     
       __delay_ms(10);
       DCs = 0; 
@@ -388,9 +390,7 @@ void ST7735S_Fill_rect()
 {
     
      
-   int q;
-int s;
- 
+  
        
   DCs = 0;      
   write_command(CASET);
@@ -412,9 +412,9 @@ int s;
   write_command(RAMWR); // Write to RAM
    CCS = 0;
     DCs = 1; 
-    for( q =0; q<=80; q++)
+    for( i =0; i<=80; i++)
   {
-      for(s=0; s<=160; s++)
+      for(j=0; j<=160; j++)
       {
    write_color(0xF0);  
   write_color(0xF0); 
@@ -645,21 +645,23 @@ void ST7735S_Fill_image(int Image_arr[])
 }
 #ifdef St7735_Widgets
 
-void ST7735_Progress_Bar(ProgressBar ProgressBarObj)
+
+
+void ST7735_Progress_Bar(ProgressBar *ProgressBarObj)
 
 {
     
-   
-  
-   
-     if(TFT_MODEL==0)
-    {
-     PMouse_data->Position.x_start = 1+ ProgressBarObj.Coordinates.x_start;   
-     PMouse_data->Position.y_start = 26+ ProgressBarObj.Coordinates.y_start; 
-     PMouse_data->Position.x_end = ( PMouse_data->Position.x_start + ProgressBarObj.Coordinates.Widht);
-     PMouse_data->Position.y_end = ( PMouse_data->Position.y_start + ProgressBarObj.Coordinates.Height);
+     P_ProgressBar_animation->Get_Values.Current_Value = 0x00;
+     P_ProgressBar_animation->Get_Values.Last_Value = 0x00;
     
-    }
+     PMouse_data->Position.x_start = 1+ ProgressBarObj->Coordinates.x_start;   
+     PMouse_data->Position.y_start = 26+ ProgressBarObj->Coordinates.y_start; 
+     PMouse_data->Position.x_end = ( PMouse_data->Position.x_start + ProgressBarObj->Coordinates.Widht);
+     PMouse_data->Position.y_end = ( PMouse_data->Position.y_start + ProgressBarObj->Coordinates.Height);
+    
+     
+       
+    
      
         DCs = 0;
         write_command(CASET);
@@ -682,19 +684,19 @@ void ST7735_Progress_Bar(ProgressBar ProgressBarObj)
         CCS = 0;
         DCs = 1; 
     
-     for(i=0; i<=ProgressBarObj.Coordinates.Widht; i++)
+     for(i=0; i<=ProgressBarObj->Coordinates.Widht; i++)
      {
-         for(j=0; j<=ProgressBarObj.Coordinates.Height; j++)
+         for(j=0; j<=ProgressBarObj->Coordinates.Height; j++)
          {
-             if(j==0 | i ==0 | i ==  ProgressBarObj.Coordinates.Widht| j == ProgressBarObj.Coordinates.Height )
+             if(j==0 | i ==0 | i ==  ProgressBarObj->Coordinates.Widht| j == ProgressBarObj->Coordinates.Height )
              {
-                  color_img =  ProgressBarObj.Coordinates.Color_border;
+                  color_img =  ProgressBarObj->Coordinates.Color_border;
                     write_color(color_img >> 8);  
                     write_color(color_img & 0xFF);
                     
              }
              else{
-                    color_img = ProgressBarObj.Coordinates.Color_background;
+                    color_img = ProgressBarObj->Coordinates.Color_background;
                     write_color(color_img >> 8);  
                     write_color(color_img & 0xFF);
                   
@@ -706,8 +708,102 @@ void ST7735_Progress_Bar(ProgressBar ProgressBarObj)
          
          
      }
-        
+      
         }
+
+void ST7735_Animating_ProgressBar( ProgressBar *ProgressBarObj, unsigned long value, char text[])
+{    
+    
+     P_ProgressBar_animation->Get_Values.Current_Value = (int)(value);
+     
+     if(P_ProgressBar_animation->Get_Values.Current_Value >= P_ProgressBar_animation->Get_Values.Last_Value)
+     {
+         
+     PMouse_data->Position.x_start = 2+ ProgressBarObj->Coordinates.x_start;   
+     PMouse_data->Position.y_start = 27+ ProgressBarObj->Coordinates.y_start; 
+     PMouse_data->Position.x_end = ( PMouse_data->Position.x_start + (ProgressBarObj->Coordinates.Widht-1));
+     PMouse_data->Position.y_end = ( PMouse_data->Position.y_start + (ProgressBarObj->Coordinates.Height-2));
+     k = ((value*ProgressBarObj->Coordinates.Widht)/r);
+     color_img = 0xE0E0;
+     
+     DCs = 0;    
+    write_command(MADCTL);//Memory access control
+    DCs = 1;
+    //  write_data(0b11110100);//RGB mode
+      write_data(0b11110100);//RGB mode    
+     }
+     
+     
+     else
+     {
+     PMouse_data->Position.x_start = 132-ProgressBarObj->Coordinates.Widht-1;   
+     PMouse_data->Position.y_start = 27+ ProgressBarObj->Coordinates.y_start; 
+     PMouse_data->Position.x_end = 132;
+     PMouse_data->Position.y_end = ( PMouse_data->Position.y_start + (ProgressBarObj->Coordinates.Height-2));
+      k = 70-((value*ProgressBarObj->Coordinates.Widht)/r);
+     DCs = 0;    
+    write_command(MADCTL);//Memory access control
+    DCs = 1;
+    //  write_data(0b11110100);//RGB mode
+      write_data(0b10110100);//RGB mod
+     color_img = 0xF0F0;
+     }
+     P_ProgressBar_animation->Get_Values.Last_Value = (int)(value);
+     /*
+     PMouse_data->Position.x_start = 2+ ProgressBarObj->Coordinates.x_start;   
+     PMouse_data->Position.y_start = 27+ ProgressBarObj->Coordinates.y_start; 
+     PMouse_data->Position.x_end = ( PMouse_data->Position.x_start + (ProgressBarObj->Coordinates.Widht-1));
+     PMouse_data->Position.y_end = ( PMouse_data->Position.y_start + (ProgressBarObj->Coordinates.Height-2));
+ 
+       */
+    
+    
+        DCs = 0;
+        write_command(CASET);
+        DCs = 1;
+        write_data(0);
+        write_data(PMouse_data->Position.y_start);//ST7735S column start in address 25
+        write_data(0);
+        write_data(PMouse_data->Position.y_end);
+        DCs = 0;
+        write_command(RASET);
+        DCs = 1;
+        write_data(0);
+        write_data(PMouse_data->Position.x_start);
+        write_data(0);
+        write_data(PMouse_data->Position.x_end);
+
+
+        DCs = 0;
+        write_command(RAMWR); // Write to RAM
+        CCS = 0;
+        DCs = 1; 
+       
+  
+        
+        
+   
+         for(i=0; i<k; i++)
+         {
+             
+              for( j=0; j<=(ProgressBarObj->Coordinates.Height-2); j++)
+              {
+                  write_color(color_img >> 8);  
+                    write_color(color_img & 0xFF);
+                     __delay_ms(10);
+                 
+
+              }
+    
+         }
+}
+ 
+     
+
+  
+    
+    
+ 
 
 
 #endif

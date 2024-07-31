@@ -73,6 +73,7 @@
 #include <xc.h>
 #include <stdio.h>
 #define _XTAL_FREQ 48000000
+#include<math.h>
 #include "Fonts.h"
 #include "Pic18f4550_spi.h"
 #include "St7735_Widgets.h"
@@ -82,12 +83,14 @@
 
  
 ProgressBar ProgressBar_ADC = {.Coordinates.x_start = 0, .Coordinates.y_start = 0,
-                               .Coordinates.Widht = 50, .Coordinates.Height =10, Black_Color, White_Color};
+                               .Coordinates.Widht = 70, .Coordinates.Height =20, Black_Color, White_Color};
 
 /*
 ProgressBar ProgressBar_Temp = {.Coordinates.x_start = 50, .Coordinates.y_start = 50,
                                .Coordinates.Widht = 40, .Coordinates.Height =5   };
 */
+Animation_Progress ProgressBar_animation;
+  
 char character_buffer[];
 
 void main(void) 
@@ -114,7 +117,7 @@ void main(void)
    
     ST7735S_Init(ST7735_128_x_160);
    
-      ST7735S_Fill_display(Black_Color); 
+      ST7735S_Fill_display(White_Color); 
        
       
             
@@ -134,10 +137,15 @@ void main(void)
     //ST7735S_Fill_image(Image_array);
               
       */
+     
+      ST7735_Progress_Bar(&ProgressBar_ADC);
+      
+  
+ 
     
-      ST7735_Progress_Bar(ProgressBar_ADC);
-      //ST7735_Progress_Bar(ProgressBar_Temp);
-          
+     
+    
+         
     
       
     
@@ -149,7 +157,11 @@ void main(void)
    
    while(1)
    {
-       
+         sprintf(character_buffer, "its ok");
+         ST7735_Animating_ProgressBar(&ProgressBar_ADC, 400, character_buffer);
+          ST7735_Animating_ProgressBar(&ProgressBar_ADC, 300, character_buffer);
+         
+         //ST7735_Animating_ProgressBar(&ProgressBar_ADC, 300, character_buffer);
        
        
        

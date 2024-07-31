@@ -51,5 +51,21 @@ typedef union {
     
 }ProgressBar;
 
+
+typedef union {
+   unsigned long Animating_Values;
+   struct{
+       int Current_Value;
+       int Last_Value;
+       
+       
+   }Get_Values;
+}Animation_Progress;
+
+Animation_Progress ProgressBar_animation;
+Animation_Progress *P_ProgressBar_animation = &ProgressBar_animation;
+
+
+
 #endif	/* XC_HEADER_TEMPLATE_H */
 
