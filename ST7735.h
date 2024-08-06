@@ -86,9 +86,8 @@ unsigned long k;
 uint8_t i;
 uint8_t j;
 uint8_t line_char;
- unsigned long r = 1023;
-        unsigned long s = 470;
-
+unsigned long r = 1023;
+//Union for cursor Location
 typedef union {
    unsigned long Mouse;
    struct{
@@ -109,6 +108,7 @@ typedef union {
 Cursor Mouse_data;
 Cursor *PMouse_data = &Mouse_data;
 
+//ENUM for choose ST7735 MODEL
 enum DISPLAY_MODEL{
     
     ST7735S_80_x_160,
@@ -134,7 +134,7 @@ void write_color(int data)
     
 }
 
-
+//INIT 80 x 160 TFT Display
 void ST7735S_80_x_160_init() {
     
      DCs = 0; 
@@ -258,6 +258,7 @@ void ST7735S_80_x_160_init() {
     
 }
 
+//INIT ST7735 128 X 160 TFT Display
 void ST7735_128_x_160_init() {
     
      DCs = 0; 
@@ -539,28 +540,36 @@ void ST7735S_Print_String(int color, char text[], uint8_t X_pos, uint8_t Y_pos, 
     }while(temporal_C!='\0');
     
 }
-void ST7735S_Fill_display(int color)
+void ST7735S_Fill_display(int color, enum DISPLAY_MODEL data)
 {
    
     i=0;
     j=0;
-    if(TFT_MODEL==0)
+   
+    if(data == ST7735S_80_x_160)
     {
+      
      PMouse_data->Position.y_start = 26;
      PMouse_data->Position.x_start = 1;
      PMouse_data->Position.y_end = PMouse_data->Position.y_start+80;
      PMouse_data->Position.x_end = PMouse_data->Position.x_start+159;
+      color_img = color;    
     }
-     if(TFT_MODEL==1)
+    else if(data == ST7735_128_x_160)
     {
+         
      PMouse_data->Position.y_start = 0;
      PMouse_data->Position.x_start = 1;
-     PMouse_data->Position.y_end = PMouse_data->Position.y_start+12;
+     PMouse_data->Position.y_end = PMouse_data->Position.y_start+128;
      PMouse_data->Position.x_end = PMouse_data->Position.x_start+159;
+      color_img = ~color;;     
     }
     
-        
-  color_img = ~color;   
+      PMouse_data->Position.y_start = 0;
+     PMouse_data->Position.x_start = 1;
+     PMouse_data->Position.y_end = PMouse_data->Position.y_start+128;
+     PMouse_data->Position.x_end = PMouse_data->Position.x_start+159;   
+ 
   DCs = 0;
   write_command(CASET);
   DCs = 1;
@@ -581,9 +590,9 @@ void ST7735S_Fill_display(int color)
   write_command(RAMWR); // Write to RAM
   CCS = 0;
   DCs = 1; 
-    for(i=0; i<=128; i++)
+    for(i=0; i<=PMouse_data->Position.y_end; i++)
   {
-      for(j=0; j<=160; j++)
+      for(j=0; j<=PMouse_data->Position.x_end; j++)
       {
    write_color(color_img >> 8);  
   write_color(color_img & 0xFF);
