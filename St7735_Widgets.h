@@ -64,8 +64,17 @@ typedef union {
 
 Animation_Progress ProgressBar_animation;
 Animation_Progress *P_ProgressBar_animation = &ProgressBar_animation;
+//Matrix For Display 7 Segmentos Circuit
+int *const Segments_Display_pixel[2][8] = 
+{
+    0x3F7E, 0x5E3D, 0x6003, 0x6003, 0x6003, 0x6003,  0x5E3D, 0x3F7E,//0
+    0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x00000, 0x1E3C, 0x3F7E//1
 
-
+    
+    
+    
+};
+int line_Display_pixel;
 
 #endif	/* XC_HEADER_TEMPLATE_H */
 

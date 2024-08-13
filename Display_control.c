@@ -117,8 +117,8 @@ void main(void)
    
     ST7735S_Init(ST7735_128_x_160);
    
-      ST7735S_Fill_display(White_Color); 
-       
+     ST7735S_Fill_display(Black_Color, ST7735_128_x_160); 
+       print_7_segments(20, 20);
       
             
              /*
@@ -138,7 +138,7 @@ void main(void)
               
       */
      
-      ST7735_Progress_Bar(&ProgressBar_ADC);
+      //ST7735_Progress_Bar(&ProgressBar_ADC);
       
   
  
@@ -157,9 +157,9 @@ void main(void)
    
    while(1)
    {
-         sprintf(character_buffer, "its ok");
-         ST7735_Animating_ProgressBar(&ProgressBar_ADC, 400, character_buffer);
-          ST7735_Animating_ProgressBar(&ProgressBar_ADC, 300, character_buffer);
+        // sprintf(character_buffer, "its ok");
+         //ST7735_Animating_ProgressBar(&ProgressBar_ADC, 400, character_buffer);
+          //ST7735_Animating_ProgressBar(&ProgressBar_ADC, 300, character_buffer);
          
          //ST7735_Animating_ProgressBar(&ProgressBar_ADC, 300, character_buffer);
        
