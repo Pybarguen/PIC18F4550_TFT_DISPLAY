@@ -543,29 +543,106 @@ void ST7735S_Print_String(int color, char text[], uint8_t X_pos, uint8_t Y_pos, 
     }while(temporal_C!='\0');
     
 }
-void ST7735S_Fill_display(int color, enum DISPLAY_MODEL data)
+
+void Set_Display_Cursor(uint8_t X_s, uint8_t Y_s, uint8_t X_end, uint8_t Y_end)
+{
+      if(TFT_MODEL == ST7735S_80_x_160)
+    {
+          
+          
+     PMouse_data->Position.y_start = 26+Y_s;
+     PMouse_data->Position.x_start = 1+X_s;
+     PMouse_data->Position.y_end = PMouse_data->Position.y_start+Y_end;
+     PMouse_data->Position.x_end = PMouse_data->Position.x_start+X_end;
+     /*
+     PMouse_data->Position.y_start = 26+Y_pos;
+     PMouse_data->Position.x_start = 1+X_pos;
+     PMouse_data->Position.y_end = PMouse_data->Position.y_start+16;
+     PMouse_data->Position.x_end = PMouse_data->Position.x_start+8;
+      */
+   
+    }
+    else if(TFT_MODEL== ST7735_128_x_160)
+    {
+       
+     PMouse_data->Position.y_start = 0+Y_s;
+     PMouse_data->Position.x_start = 1+X_s;
+     PMouse_data->Position.y_end = PMouse_data->Position.y_start+Y_end;
+     PMouse_data->Position.x_end = PMouse_data->Position.x_start+X_end;
+     /*
+     PMouse_data->Position.y_start = 0+Y_pos;
+     PMouse_data->Position.x_start = 1+X_pos;
+     PMouse_data->Position.y_end = PMouse_data->Position.y_start+15;
+     PMouse_data->Position.x_end = PMouse_data->Position.x_start+8;
+     */
+    
+    }
+  DCs = 0;
+  write_command(CASET);
+  DCs = 1;
+  write_data(0);
+  write_data(PMouse_data->Position.y_start);
+  write_data(0);
+  write_data(PMouse_data->Position.y_end);
+  DCs = 0;
+  write_command(RASET);
+  DCs = 1;
+  write_data(0);
+  write_data(PMouse_data->Position.x_start);
+  write_data(0);
+  write_data(PMouse_data->Position.x_end);
+  
+   
+  DCs = 0;
+  write_command(RAMWR); // Write to RAM
+  CCS = 0;
+  DCs = 1; 
+  
+  /*
+  for(i=0; i<=PMouse_data->Position.y_end; i++)
+  {
+      for(j=0; j<=PMouse_data->Position.x_end; j++)
+      {
+   write_color(0xAA);  
+  write_color(0xAA);
+
+  }
+   */ 
+    
+}
+ 
+    
+void ST7735S_Fill_display(int color)
 {
    
     i=0;
     j=0;
    
-    if(data == ST7735S_80_x_160)
+    
+    
+    if(TFT_MODEL == ST7735S_80_x_160)
     {
-      
+     
+     /*
      PMouse_data->Position.y_start = 26;
      PMouse_data->Position.x_start = 1;
      PMouse_data->Position.y_end = PMouse_data->Position.y_start+80;
      PMouse_data->Position.x_end = PMouse_data->Position.x_start+159;
+      */
+    Set_Display_Cursor(0, 0,160,80);
       color_img = color;    
     }
-    else if(data == ST7735_128_x_160)
+    else if(TFT_MODEL == ST7735_128_x_160)
     {
-         
+      
+     /*
      PMouse_data->Position.y_start = 0;
      PMouse_data->Position.x_start = 1;
      PMouse_data->Position.y_end = PMouse_data->Position.y_start+128;
      PMouse_data->Position.x_end = PMouse_data->Position.x_start+159;
-      color_img = ~color;;     
+      */
+     Set_Display_Cursor(0, 0, 128,160);
+      color_img = ~color;
     }
     
        
@@ -617,61 +694,7 @@ void ST7735S_Fill_display(int color, enum DISPLAY_MODEL data)
 
 }
     
-void Set_Display_Cursor(uint8_t X_pos, uint8_t Y_pos)
-{
-      if(TFT_MODEL == ST7735S_80_x_160)
-    {
-      
-     PMouse_data->Position.y_start = 26+Y_pos;
-     PMouse_data->Position.x_start = 1+X_pos;
-     PMouse_data->Position.y_end = PMouse_data->Position.y_start+16;
-     PMouse_data->Position.x_end = PMouse_data->Position.x_start+8;
-   
-    }
-    else if(TFT_MODEL== ST7735_128_x_160)
-    {
-         
-     PMouse_data->Position.y_start = 0+Y_pos;
-     PMouse_data->Position.x_start = 1+X_pos;
-     PMouse_data->Position.y_end = PMouse_data->Position.y_start+15;
-     PMouse_data->Position.x_end = PMouse_data->Position.x_start+8;
-    
-    }
-  DCs = 0;
-  write_command(CASET);
-  DCs = 1;
-  write_data(0);
-  write_data(PMouse_data->Position.y_start);
-  write_data(0);
-  write_data(PMouse_data->Position.y_end);
-  DCs = 0;
-  write_command(RASET);
-  DCs = 1;
-  write_data(0);
-  write_data(PMouse_data->Position.x_start);
-  write_data(0);
-  write_data(PMouse_data->Position.x_end);
-  
-   
-  DCs = 0;
-  write_command(RAMWR); // Write to RAM
-  CCS = 0;
-  DCs = 1; 
-  
-  /*
-  for(i=0; i<=PMouse_data->Position.y_end; i++)
-  {
-      for(j=0; j<=PMouse_data->Position.x_end; j++)
-      {
-   write_color(0xAA);  
-  write_color(0xAA);
 
-  }
-   */ 
-    
-}
- 
-    
     
 
 
@@ -680,11 +703,9 @@ void ST7735S_Fill_image(int Image_arr[])
 
 {
     
-    int j = 0;
+  
 
         
-   
-
         
       
   write_command(CASET);
@@ -866,7 +887,7 @@ void print_7_segments(uint8_t X_pos, uint8_t Y_pos)
 {
  
     
-      Set_Display_Cursor(20, 20);
+      //Set_Display_Cursor(20, 20);
  
 
       

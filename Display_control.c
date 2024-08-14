@@ -117,8 +117,8 @@ void main(void)
    
     ST7735S_Init(ST7735_128_x_160);
    
-     ST7735S_Fill_display(Black_Color, ST7735_128_x_160); 
-       print_7_segments(20, 20);
+     ST7735S_Fill_display(Green_Color); 
+      // print_7_segments(20, 20);
       
             
              /*
