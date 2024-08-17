@@ -219,9 +219,11 @@ void ST7735S_80_x_160_init() {
     DCs = 0;    
     write_command(MADCTL);//Memory access control
     DCs = 1;
-    write_data(0b11111100);//RGB mode       
+    write_data(0b01011000);//RGB mode      
       
 
+   // write_command(MADCTL);//Memory access control
+      
       
       
      
@@ -646,7 +648,7 @@ void ST7735S_Fill_display(int color)
     }
     
        
- 
+ /*
   DCs = 0;
   write_command(CASET);
   DCs = 1;
@@ -667,6 +669,7 @@ void ST7735S_Fill_display(int color)
   write_command(RAMWR); // Write to RAM
   CCS = 0;
   DCs = 1; 
+  */
     for(i=0; i<=PMouse_data->Position.y_end; i++)
   {
       for(j=0; j<=PMouse_data->Position.x_end; j++)
