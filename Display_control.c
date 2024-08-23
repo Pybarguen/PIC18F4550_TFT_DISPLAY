@@ -82,8 +82,8 @@
 //#include "Image.h"
 
  
-ProgressBar ProgressBar_ADC = {.Coordinates.x_start = 0, .Coordinates.y_start = 0,
-                               .Coordinates.Widht = 70, .Coordinates.Height =20, Black_Color, White_Color};
+ProgressBar ProgressBar_ADC = {.Coordinates.x_start =10, .Coordinates.y_start = 90,
+                               .Coordinates.Widht = 100, .Coordinates.Height =20, Black_Color, White_Color};
 
 /*
 ProgressBar ProgressBar_Temp = {.Coordinates.x_start = 50, .Coordinates.y_start = 50,
@@ -118,6 +118,8 @@ void main(void)
     ST7735S_Init(ST7735_128_x_160);
    
      ST7735S_Fill_display(Green_Color); 
+       ST7735_Progress_Bar(&ProgressBar_ADC);
+       ST7735S_Print_Char(Blue_Color, 'F', 0, 0, 2);
       // print_7_segments(20, 20);
       
             
@@ -138,7 +140,7 @@ void main(void)
               
       */
      
-      //ST7735_Progress_Bar(&ProgressBar_ADC);
+    
       
   
  
@@ -169,6 +171,6 @@ void main(void)
     
      
 
-       
+   
 
 }
