@@ -79,7 +79,7 @@
 #include "St7735_Widgets.h"
 #include "ST7735.h"
 
-//#include "Image.h"
+#include "Image.h"
 
  
 ProgressBar ProgressBar_ADC = {.Coordinates.x_start =10, .Coordinates.y_start = 90,
@@ -116,10 +116,23 @@ void main(void)
     DCs = 0;
    
     ST7735S_Init(ST7735_128_x_160);
-   
-     ST7735S_Fill_display(Green_Color); 
+    ST7735S_Fill_display(Black_Color); 
+    ST7735_Progress_Bar(&ProgressBar_ADC);
+       ST7735S_Print_Char(Blue_Color, 't', 20, 50, 3);
+      sprintf(character_buffer, "Testing");
+          ST7735S_Print_String(Blue_Color, character_buffer, 40, 40, 3);
+          __delay_ms(2000);
+         
+           ST7735S_Fill_display(Black_Color); 
+    ST7735S_Fill_image(Image_array);
+   /*
+     
        ST7735_Progress_Bar(&ProgressBar_ADC);
-       ST7735S_Print_Char(Blue_Color, 'F', 0, 0, 2);
+       ST7735S_Print_Char(Blue_Color, 't', 20, 50, 3);
+      sprintf(character_buffer, "Testing");
+          ST7735S_Print_String(Blue_Color, character_buffer, 40, 40, 3);
+     */
+          //
       // print_7_segments(20, 20);
       
             
