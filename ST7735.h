@@ -82,12 +82,16 @@
 char image_high;
 char image_low;
 int color_img;
+int background;
 unsigned long k;
 uint8_t i;
 uint8_t j;
 uint8_t Temporal_data;
 uint8_t line_char;
 unsigned long r = 1023;
+
+
+
 //Union for cursor Location
 typedef union {
    unsigned long Mouse;
@@ -337,7 +341,8 @@ void ST7735_128_x_160_init() {
     write_command(MADCTL);//Memory access control
     DCs = 1;
     //write_data(0b01001000);//RGB mode   
-      write_data(0b11110100);//RGB mode
+     write_data(0b11110100);//RGB mode
+    //write_data(0b11011000); //for image
     
       __delay_ms(10);
       DCs = 0; 
@@ -403,27 +408,16 @@ void Set_Display_Cursor(uint8_t X_s, uint8_t Y_s, uint8_t X_end, uint8_t Y_end)
      PMouse_data->Position.x_start = 1+X_s;
      PMouse_data->Position.y_end = PMouse_data->Position.y_start+Y_end;
      PMouse_data->Position.x_end = PMouse_data->Position.x_start+X_end;
-     /*
-     PMouse_data->Position.y_start = 26+Y_pos;
-     PMouse_data->Position.x_start = 1+X_pos;
-     PMouse_data->Position.y_end = PMouse_data->Position.y_start+16;
-     PMouse_data->Position.x_end = PMouse_data->Position.x_start+8;
-      */
+  
    
     }
     else if(TFT_MODEL== ST7735_128_x_160)
     {
-       
-     PMouse_data->Position.y_start = 0+Y_s;
-     PMouse_data->Position.x_start = 1+X_s;
-     PMouse_data->Position.y_end = PMouse_data->Position.y_start+Y_end;
+     PMouse_data->Position.x_start = X_s;  
+     PMouse_data->Position.y_start = Y_s;
      PMouse_data->Position.x_end = PMouse_data->Position.x_start+X_end;
-     /*
-     PMouse_data->Position.y_start = 0+Y_pos;
-     PMouse_data->Position.x_start = 1+X_pos;
-     PMouse_data->Position.y_end = PMouse_data->Position.y_start+15;
-     PMouse_data->Position.x_end = PMouse_data->Position.x_start+8;
-     */
+     PMouse_data->Position.y_end = PMouse_data->Position.y_start+Y_end;
+       
     
     }
   DCs = 0;
@@ -446,17 +440,27 @@ void Set_Display_Cursor(uint8_t X_s, uint8_t Y_s, uint8_t X_end, uint8_t Y_end)
   write_command(RAMWR); // Write to RAM
   CCS = 0;
   DCs = 1; 
-  
-  /*
-  for(i=0; i<=PMouse_data->Position.y_end; i++)
-  {
-      for(j=0; j<=PMouse_data->Position.x_end; j++)
-      {
-   write_color(0xAA);  
-  write_color(0xAA);
+     
+}
 
-  }
-   */ 
+void Set_Color(int Temp_Color)
+{
+    
+    
+     if(TFT_MODEL == ST7735S_80_x_160)
+    {
+       color_img = Temp_Color;
+       
+        
+    }
+    else if(TFT_MODEL == ST7735_128_x_160)
+    {
+        
+        color_img = ~Temp_Color;
+        
+    }
+    
+    
     
 }
  
@@ -467,61 +471,40 @@ void ST7735S_Fill_rect()
      
   
        
-  DCs = 0;      
-  write_command(CASET);
-  DCs = 1;  
-  write_data(0);
-  write_data(25);//ST7735S column start in address 25
-  write_data(0);
-  write_data(127);
-  DCs = 0; 
-  write_command(RASET);
-  DCs = 1;
-  write_data(0);
-  write_data(1);
-  write_data(0);
-  write_data(160);
-  
+  Set_Display_Cursor(0, 0, 20,20);
    
 
-  write_command(RAMWR); // Write to RAM
-   CCS = 0;
-    DCs = 1; 
-    for( i =0; i<=80; i++)
+ 
+    for( i =0; i<=400; i++)
   {
-      for(j=0; j<=160; j++)
-      {
+    
    write_color(0xF0);  
-  write_color(0xF0); 
+   write_color(0xF0); 
   
-  }
     
 }
 }
+
 
 void ST7735S_Print_Char(int color, char C_char, uint8_t X_pos, uint8_t Y_pos, uint8_t Size)
 {
    
   uint8_t Set_size =0;
-   
-  if(Size>1)
-  {
-      
+    uint8_t Temporal_data_y;
+ 
          //PMouse_data->Position.y_end = PMouse_data->Position.y_start+((8*Size)-1);
-         Temporal_data = Y_pos+((8*Size)-1);
-  }
-  else
-  {
-       Temporal_data = 7;
+         Temporal_data = ((8*Size)-1);
+        
+       
       
-  }
+  
  
   Set_Display_Cursor(X_pos, Y_pos, 5, Temporal_data);
-
+  
    i=0;
    j=0;
 
-  color_img = ~color; 
+ 
   
  
  for(i=0; i<=4; i++)
@@ -534,7 +517,7 @@ void ST7735S_Print_Char(int color, char C_char, uint8_t X_pos, uint8_t Y_pos, ui
           if(Size>1)
           {
             if(line_char & 1)
-            {    color_img = ~color;
+            {    Set_Color(color);
                 for(Set_size =0; Set_size<=(Size-1); Set_size++)
                 
                 {                 
@@ -549,7 +532,8 @@ void ST7735S_Print_Char(int color, char C_char, uint8_t X_pos, uint8_t Y_pos, ui
             {
                 
             
-                color_img = ~Black_Color;
+                
+                Set_Color(background);
                 for(Set_size =0; Set_size<=(Size-1); Set_size++)
                 
                 {  
@@ -567,14 +551,14 @@ void ST7735S_Print_Char(int color, char C_char, uint8_t X_pos, uint8_t Y_pos, ui
           else{
               
           if(line_char & 1)
-          {     color_img = ~color;
+          {     Set_Color(color);
                  write_color(color_img >> 8);  
                 write_color(color_img & 0xFF); 
           }
           else
           {
               
-             color_img = color;
+             Set_Color(background);
              write_color(color_img >> 8);  
                 write_color(color_img & 0xFF); 
           }
@@ -582,6 +566,7 @@ void ST7735S_Print_Char(int color, char C_char, uint8_t X_pos, uint8_t Y_pos, ui
        
           }
           line_char>>=1;
+        
   
   }
     
@@ -597,9 +582,10 @@ void ST7735S_Print_String(int color, char text[], uint8_t X_pos, uint8_t Y_pos, 
     {
        
       temporal_C  =  text[iterator];  
-      iterator ++;
+      
       ST7735S_Print_Char(color, temporal_C, X_pos, Y_pos, Size);
       X_pos +=7;
+      iterator ++;
     }while(temporal_C!='\0');
     
 }
@@ -612,55 +598,22 @@ void ST7735S_Fill_display(int color)
     j=0;
    
     
-    
+    background = color;
     if(TFT_MODEL == ST7735S_80_x_160)
     {
      
-     /*
-     PMouse_data->Position.y_start = 26;
-     PMouse_data->Position.x_start = 1;
-     PMouse_data->Position.y_end = PMouse_data->Position.y_start+80;
-     PMouse_data->Position.x_end = PMouse_data->Position.x_start+159;
-      */
+    
     Set_Display_Cursor(0, 0,160,80);
-      color_img = color;    
+      Set_Color(color);   
     }
     else if(TFT_MODEL == ST7735_128_x_160)
     {
       
-     /*
-     PMouse_data->Position.y_start = 0;
-     PMouse_data->Position.x_start = 1;
-     PMouse_data->Position.y_end = PMouse_data->Position.y_start+128;
-     PMouse_data->Position.x_end = PMouse_data->Position.x_start+159;
-      */
-     Set_Display_Cursor(0, 0, 128,160);
-      color_img = ~color;
-    }
-    
-       
- /*
-  DCs = 0;
-  write_command(CASET);
-  DCs = 1;
-  write_data(0);
-  write_data(PMouse_data->Position.y_start);//ST7735S column start in address 25
-  write_data(0);
-  write_data(PMouse_data->Position.y_end);
-  DCs = 0;
-  write_command(RASET);
-  DCs = 1;
-  write_data(0);
-  write_data(PMouse_data->Position.x_start);
-  write_data(0);
-  write_data(PMouse_data->Position.x_end);
   
-   
-  DCs = 0;
-  write_command(RAMWR); // Write to RAM
-  CCS = 0;
-  DCs = 1; 
-  */
+     Set_Display_Cursor(0, 0, 128,160);
+      Set_Color(color);  
+    }    
+       
     for(i=0; i<=PMouse_data->Position.y_end; i++)
   {
       for(j=0; j<=PMouse_data->Position.x_end; j++)
@@ -672,18 +625,6 @@ void ST7735S_Fill_display(int color)
     
     
 }
- 
-  /*
-  while(j>=50);
-  {
-   write_color(0Xff);  
-   write_color(0Xff);
-   j--;
-  }
-  CCS = 1;
- */
-
-
         
 
 }
@@ -698,31 +639,19 @@ void ST7735S_Fill_image(int Image_arr[])
 {
     
   
-
+Set_Display_Cursor(0, 0,67,99);
         
         
       
-  write_command(CASET);
-  write_data(0);
-  write_data(0);
-  write_data(0);
-  write_data(128);
-  write_command(RASET);
-  write_data(0);
-  write_data(0);
-  write_data(0);
-  write_data(160);
   
-   
-
-  write_command(RAMWR); // Write to RAM
-   CCS = 0;
-    DCs = 1; 
-  for(int i =0; i<=20000; i++)
+  for(int i =0; i<=6800; i++)
   {
-     color_img = ~ Image_arr[i];
-   write_color(color_img >> 8);  
-  write_color(color_img & 0xFF);
+      
+          
+      color_img =  Image_arr[i];
+      write_color(color_img >> 8);  
+      write_color(color_img & 0xFF);
+  
   }
 }
 #ifdef St7735_Widgets
@@ -734,35 +663,11 @@ void ST7735_Progress_Bar(ProgressBar *ProgressBarObj)
      P_ProgressBar_animation->Get_Values.Current_Value = 0x00;
      P_ProgressBar_animation->Get_Values.Last_Value = 0x00;
     
-     /*
-     PMouse_data->Position.x_start = 1+ ProgressBarObj->Coordinates.x_start;   
-     PMouse_data->Position.y_start = 26+ ProgressBarObj->Coordinates.y_start; 
-     PMouse_data->Position.x_end = ( PMouse_data->Position.x_start + ProgressBarObj->Coordinates.Widht);
-     PMouse_data->Position.y_end = ( PMouse_data->Position.y_start + ProgressBarObj->Coordinates.Height);
-    
-     Set_Display_Cursor(10, 50, 100, 50);
-
-       */
-          
-     Set_Display_Cursor(ProgressBarObj->Coordinates.x_start, ProgressBarObj->Coordinates.y_start,
+            
+    Set_Display_Cursor(ProgressBarObj->Coordinates.x_start, ProgressBarObj->Coordinates.y_start,
     ProgressBarObj->Coordinates.Widht, ProgressBarObj->Coordinates.Height);
     
-     /*
-        DCs = 0;
-        write_command(CASET);
-        DCs = 1;
-        write_data(0);
-        write_data(PMouse_data->Position.y_start);//ST7735S column start in address 25
-        write_data(0);
-        write_data(PMouse_data->Position.y_end);
-        DCs = 0;
-        write_command(RASET);
-        DCs = 1;
-        write_data(0);
-        write_data(PMouse_data->Position.x_start);
-        write_data(0);
-        write_data(PMouse_data->Position.x_end);
-*/
+  
 
     
      for(i=0; i<=ProgressBarObj->Coordinates.Widht; i++)
@@ -771,13 +676,14 @@ void ST7735_Progress_Bar(ProgressBar *ProgressBarObj)
          {
              if(j==0 | i ==0 | i ==  ProgressBarObj->Coordinates.Widht| j == ProgressBarObj->Coordinates.Height )
              {
-                  color_img =  ProgressBarObj->Coordinates.Color_border;
+                 
+                 Set_Color(ProgressBarObj->Coordinates.Color_border);                  
                     write_color(color_img >> 8);  
                     write_color(color_img & 0xFF);
                     
              }
              else{
-                    color_img = ProgressBarObj->Coordinates.Color_background;
+                    Set_Color(ProgressBarObj->Coordinates.Color_background);                    
                     write_color(color_img >> 8);  
                     write_color(color_img & 0xFF);
                   
