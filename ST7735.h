@@ -486,109 +486,7 @@ void ST7735S_Fill_rect()
 }
 
 
-void ST7735S_Print_Char(int color, char C_char, uint8_t X_pos, uint8_t Y_pos, uint8_t Size)
-{
-   
-  uint8_t Set_size =0;
-    uint8_t Temporal_data_y;
- 
-         //PMouse_data->Position.y_end = PMouse_data->Position.y_start+((8*Size)-1);
-         Temporal_data = ((8*Size)-1);
-        
-       
-      
-  
- 
-  Set_Display_Cursor(X_pos, Y_pos, 5, Temporal_data);
-  
-   i=0;
-   j=0;
 
- 
-  
- 
- for(i=0; i<=4; i++)
-  {
-      line_char = font[C_char][i];
-    
-       
-      for(j=0; j<8; j++)
-      {
-          if(Size>1)
-          {
-            if(line_char & 1)
-            {    Set_Color(color);
-                for(Set_size =0; Set_size<=(Size-1); Set_size++)
-                
-                {                 
-                 write_color(color_img >> 8);  
-                write_color(color_img & 0xFF); 
-             
-                }
-            }
-              
-         
-            else
-            {
-                
-            
-                
-                Set_Color(background);
-                for(Set_size =0; Set_size<=(Size-1); Set_size++)
-                
-                {  
-                 write_color(color_img >> 8);  
-                write_color(color_img & 0xFF);                 
-                }
-                 
-            }
-                  
-           
-            
-          }
-           
-          
-          else{
-              
-          if(line_char & 1)
-          {     Set_Color(color);
-                 write_color(color_img >> 8);  
-                write_color(color_img & 0xFF); 
-          }
-          else
-          {
-              
-             Set_Color(background);
-             write_color(color_img >> 8);  
-                write_color(color_img & 0xFF); 
-          }
-         
-       
-          }
-          line_char>>=1;
-        
-  
-  }
-    
-    
-}
-}
-
-void ST7735S_Print_String(int color, char text[], uint8_t X_pos, uint8_t Y_pos, uint8_t Size)
-{
-   char temporal_C;
-   uint8_t iterator = 0;
-   do
-    {
-       
-      temporal_C  =  text[iterator];  
-      
-      ST7735S_Print_Char(color, temporal_C, X_pos, Y_pos, Size);
-      X_pos +=7;
-      iterator ++;
-    }while(temporal_C!='\0');
-    
-}
 
 
 void ST7735S_Fill_display(int color)
@@ -629,7 +527,102 @@ void ST7735S_Fill_display(int color)
 
 }
     
+void ST7735S_Print_Char(int color, char C_char, uint8_t X_pos, uint8_t Y_pos, uint8_t Size)
+{
+   
+  uint8_t Set_size =0;
+    uint8_t Temporal_data_y;
+    uint8_t Temporal_data_x;
+         //PMouse_data->Position.y_end = PMouse_data->Position.y_start+((8*Size)-1);
+         Temporal_data_y = ((8*Size)-1);
+         Temporal_data_x = ((5*Size)-1);
+       
+      
+  
+ 
+  Set_Display_Cursor(X_pos, Y_pos, Temporal_data_x, Temporal_data_y);
+  
+   i=0;
+   j=0;
 
+ 
+  
+ 
+ for(i=0; i<=4; i++)
+  {
+      
+    
+    
+       line_char = font[C_char][i];
+       for(int h=0; h<Size; h++)
+       {
+      for(j=0; j<=7; j++)
+      {
+         
+            if(line_char & 1)
+            {    Set_Color(color);   
+                 
+             for(Set_size =0; Set_size<=(Size-1); Set_size++)
+                
+                {    
+                 write_color(color_img >> 8);  
+                write_color(color_img & 0xFF); 
+                     __delay_ms(1);   
+             }
+            }
+                      
+            else
+            {            
+              Set_Color(background);   
+              for(Set_size =0; Set_size<=(Size-1); Set_size++)
+                
+                {   
+                 write_color(color_img >> 8);  
+                write_color(color_img & 0xFF); 
+                __delay_ms(1); 
+              }
+                }
+                  
+           
+            
+          
+           
+          
+          
+          
+        line_char>>=1;
+        
+     
+        }
+      if(j>=7)
+      {
+        line_char = line_char = font[C_char][i];
+      }
+      }
+        
+  
+      }
+      
+ }
+          
+    
+
+
+void ST7735S_Print_String(int color, char text[], uint8_t X_pos, uint8_t Y_pos, uint8_t Size)
+{
+   char temporal_C;
+   uint8_t iterator = 0;
+   do
+    {
+       
+      temporal_C  =  text[iterator];  
+      
+      ST7735S_Print_Char(color, temporal_C, X_pos, Y_pos, Size);
+      X_pos += (7*Size)-4;
+      iterator ++;
+    }while(temporal_C!='\0');
+    
+}
     
 
 
