@@ -91,6 +91,12 @@ uint8_t line_char;
 unsigned long r = 1023;
 
 
+//Varibles for temporal function control.
+uint8_t Set_size =0;
+uint8_t Temporal_data_y;
+uint8_t Temporal_data_x;
+
+
 
 //Union for cursor Location
 typedef union {
@@ -530,9 +536,7 @@ void ST7735S_Fill_display(int color)
 void ST7735S_Print_Char(int color, char C_char, uint8_t X_pos, uint8_t Y_pos, uint8_t Size)
 {
    
-  uint8_t Set_size =0;
-    uint8_t Temporal_data_y;
-    uint8_t Temporal_data_x;
+  
          //PMouse_data->Position.y_end = PMouse_data->Position.y_start+((8*Size)-1);
          Temporal_data_y = ((8*Size)-1);
          Temporal_data_x = ((5*Size)-1);
@@ -618,7 +622,7 @@ void ST7735S_Print_String(int color, char text[], uint8_t X_pos, uint8_t Y_pos, 
       temporal_C  =  text[iterator];  
       
       ST7735S_Print_Char(color, temporal_C, X_pos, Y_pos, Size);
-      X_pos += (7*Size)-4;
+      X_pos += (7*Size)-3;
       iterator ++;
     }while(temporal_C!='\0');
     
@@ -779,17 +783,21 @@ void ST7735_Animating_ProgressBar( ProgressBar *ProgressBarObj, unsigned long va
     
          }
 }
-void print_7_segments(uint8_t X_pos, uint8_t Y_pos)
+void print_7_segments(uint8_t X_pos, uint8_t Y_pos, char number, uint8_t Size)
 {
  
-    
-      //Set_Display_Cursor(20, 20);
+     
+      Temporal_data_y = ((16*Size)-1);
+      Temporal_data_x = ((8*Size)-1);
+       
+      
+      Set_Display_Cursor(X_pos, Y_pos, Temporal_data_x, Temporal_data_y);
  
-
+    
       
       for(i=0;i<=7;i++)
       {
-      line_Display_pixel = Segments_Display_pixel[1][i];
+      line_Display_pixel = Segments_Display_pixel[number-48][i];
       for(j=0;j<=15;j++)
       {
           if( line_Display_pixel & 1)
