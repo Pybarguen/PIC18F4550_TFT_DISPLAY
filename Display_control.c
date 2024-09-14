@@ -117,12 +117,28 @@ void main(void)
    
     ST7735S_Init(ST7735_128_x_160);
     ST7735S_Fill_display(Black_Color); 
-    ST7735_Progress_Bar(&ProgressBar_ADC);
+    //ST7735_Progress_Bar(&ProgressBar_ADC);
      //ST7735S_Print_Char(Blue_Color, 't', 20, 50, 2);
-      sprintf(character_buffer, "Daniel");
-          ST7735S_Print_String(Blue_Color, character_buffer, 12, 10, 3);
-          __delay_ms(2000);
+      //sprintf(character_buffer, "Daniel");
+         // ST7735S_Print_String(Blue_Color, character_buffer, 12, 10, 1);
+   
+     
          
+     print_7_segments(0, 0, '0', 1); 
+     print_7_segments(9, 0, '1', 1); 
+     print_7_segments(18, 0, '2', 1); 
+     print_7_segments(27, 0, '3', 1); 
+     print_7_segments(36, 0, '4', 1); 
+     print_7_segments(45, 0, '5', 1); 
+     print_7_segments(54, 0, '6', 1); 
+     print_7_segments(63, 0, '7', 1); 
+     print_7_segments(72, 0, '8', 1); 
+     print_7_segments(81, 0, '9', 1); 
+    
+   
+     
+       
+
           // ST7735S_Fill_display(Black_Color); 
     //ST7735S_Fill_image(Image_array);
    /*
