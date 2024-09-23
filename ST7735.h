@@ -95,7 +95,8 @@ unsigned long r = 1023;
 uint8_t Set_size =0;
 uint8_t Temporal_data_y;
 uint8_t Temporal_data_x;
-
+uint8_t iterator;
+char temporal_C;
 
 
 //Union for cursor Location
@@ -600,7 +601,7 @@ void ST7735S_Print_Char(int color, char C_char, uint8_t X_pos, uint8_t Y_pos, ui
         }
       if(j>=7)
       {
-        line_char = line_char = font[C_char][i];
+        line_char = font[C_char][i];
       }
       }
         
@@ -612,17 +613,17 @@ void ST7735S_Print_Char(int color, char C_char, uint8_t X_pos, uint8_t Y_pos, ui
     
 
 
-void ST7735S_Print_String(int color, char text[], uint8_t X_pos, uint8_t Y_pos, uint8_t Size)
+void ST7735S_Print_String(int color, char text[], uint8_t X_posa, uint8_t Y_pos, uint8_t Size)
 {
-   char temporal_C;
-   uint8_t iterator = 0;
+   
+    iterator = 0;
    do
     {
        
       temporal_C  =  text[iterator];  
       
-      ST7735S_Print_Char(color, temporal_C, X_pos, Y_pos, Size);
-      X_pos += (7*Size)-3;
+      ST7735S_Print_Char(color, temporal_C, X_posa, Y_pos, Size);
+      X_posa += (7*Size)+2;
       iterator ++;
     }while(temporal_C!='\0');
     
@@ -783,7 +784,7 @@ void ST7735_Animating_ProgressBar( ProgressBar *ProgressBarObj, unsigned long va
     
          }
 }
-void print_7_segments(uint8_t X_pos, uint8_t Y_pos, char number, uint8_t Size)
+void print_7_segments(uint8_t X_pos, uint8_t Y_pos, char number, uint8_t Size, int color)
 {
  
      
@@ -797,36 +798,71 @@ void print_7_segments(uint8_t X_pos, uint8_t Y_pos, char number, uint8_t Size)
       
       for(i=0;i<=7;i++)
       {
+          
       line_Display_pixel = Segments_Display_pixel[number-48][i];
+          for(iterator=0; iterator<Size; iterator++)
+       {
+      
       for(j=0;j<=15;j++)
       {
           if( line_Display_pixel & 1)
-          {     color_img = 0x00EE;
+          {      Set_Color(color);   
+               for(Set_size =0; Set_size<=(Size-1); Set_size++)
+                
+                {    
                  write_color(color_img >> 8);  
                 write_color(color_img & 0xFF); 
+                     __delay_ms(1);   
+             } 
                   
           }
           else
           {
               
-             color_img = ~Black_Color;
-             write_color(color_img >> 8);  
+            Set_Color(background); 
+              for(Set_size =0; Set_size<=(Size-1); Set_size++)
+                
+                {   
+                 write_color(color_img >> 8);  
                 write_color(color_img & 0xFF); 
-              
+                __delay_ms(1); 
+              }
           }
            line_Display_pixel>>=1;  
       }
-    
+      if(j>=15)
+      {
+      line_Display_pixel  = Segments_Display_pixel[number-48][i];
+      }
     
 }
     
 }
   
+ 
     
     
  
-
-
+}
+void print_7_segments_string(uint8_t X_pos, uint8_t Y_pos, char display_number[], uint8_t Size, int color)
+{
+   
+    uint8_t Wix;
+    Wix = 0;
+   do
+    {
+       
+      temporal_C  = display_number[Wix];  
+      if(temporal_C != '\0'){
+      print_7_segments(X_pos, Y_pos, temporal_C, Size, Blue_Color); 
+      X_pos += (7*Size)+4;
+      
+      }
+     Wix++;
+    }while(temporal_C!='\0');
+    
+}
+    
 #endif
 
      
