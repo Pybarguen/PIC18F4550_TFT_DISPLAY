@@ -39,7 +39,16 @@
 #define Blue_Color 0xFFE0
 #define Black_Color 0xFFFF
 #define White_Color 0x0000
-
+#define Purple_Color 0x3FF3
+#define LightBlue_Color 0xF8C0
+#define GreenApple_Color 0x485D
+#define Orange_Color 0b0000001100011111
+#define Pink_Color 0x1B68
+#define Yellow_Color 0b0000000010111111
+#define Gray_Color 0x8431
+#define Brown_Color 0x963F
+#define WineRed_Color 0x879E
+#define Silver_Color 0x2104
 
 //matrix for ASCII Characters
 char *const font[126][5] = 
