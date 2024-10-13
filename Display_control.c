@@ -118,6 +118,7 @@ void main(void)
    ST7735S_Init(ST7735_128_x_160);
     ST7735S_Fill_display(Black_Color); 
     
+    /*
       sprintf(character_buffer, "Hello World");
         ST7735S_Print_String(Blue_Color, character_buffer, 0, 0, 1);
         __delay_ms(1);
@@ -140,9 +141,64 @@ void main(void)
         sprintf(character_buffer, "Dios cumplira");
         ST7735S_Print_String(Green_Color, character_buffer, 0, 110, 1);
         __delay_ms(1);
-    
+    */
+     sprintf(character_buffer, "Purple");
+        ST7735S_Print_String(Purple_Color, character_buffer, 0, 0, 1);
+        __delay_ms(1);
+        
+           sprintf(character_buffer, "LightBlue");
+        ST7735S_Print_String(LightBlue_Color, character_buffer, 0, 10, 1);
+        __delay_ms(1);
+        
+             sprintf(character_buffer, "GreenApple");
+        ST7735S_Print_String(GreenApple_Color, character_buffer, 0, 20, 1);
+        __delay_ms(1);
    
-     
+   
+           sprintf(character_buffer, "Orange");
+        ST7735S_Print_String(Orange_Color, character_buffer, 0, 30, 1);
+        __delay_ms(1);
+        
+           sprintf(character_buffer, "Pink");
+        ST7735S_Print_String(Pink_Color, character_buffer, 0, 40, 1);
+        __delay_ms(1);
+        
+          sprintf(character_buffer, "Yellow");
+        ST7735S_Print_String(Yellow_Color, character_buffer, 0, 50, 1);
+        __delay_ms(1);
+        
+          sprintf(character_buffer, "Gray");
+        ST7735S_Print_String(Gray_Color, character_buffer, 0, 60, 1);
+        __delay_ms(1);
+        
+          sprintf(character_buffer, "Brown");
+        ST7735S_Print_String(Brown_Color, character_buffer, 0, 70, 1);
+        __delay_ms(1);
+        
+            sprintf(character_buffer, "WineRed");
+        ST7735S_Print_String(WineRed_Color, character_buffer, 0, 80, 1);
+        __delay_ms(1);
+        
+        
+         sprintf(character_buffer, "Silver");//Error en letra S
+        ST7735S_Print_String(Silver_Color, character_buffer, 0, 90, 1);
+        __delay_ms(1);
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+   
+   
+   
        
 
           // ST7735S_Fill_display(Black_Color); 
