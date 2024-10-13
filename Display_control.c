@@ -115,19 +115,31 @@ void main(void)
     CCS = 1;
     DCs = 0;
    
-    ST7735S_Init(ST7735_128_x_160);
+   ST7735S_Init(ST7735_128_x_160);
     ST7735S_Fill_display(Black_Color); 
     
-      sprintf(character_buffer, "Test Char");
+      sprintf(character_buffer, "Hello World");
         ST7735S_Print_String(Blue_Color, character_buffer, 0, 0, 1);
         __delay_ms(1);
         sprintf(character_buffer, "Test Numbers");
-        ST7735S_Print_String(Blue_Color, character_buffer, 0, 30, 1);
+        ST7735S_Print_String(Green_Color, character_buffer, 0, 30, 1);
+    __delay_ms(1);
+    
+     sprintf(character_buffer, "1234567890");
+        ST7735S_Print_String(Red_Color, character_buffer, 0, 55, 1);
     __delay_ms(1);
      
-      sprintf(character_buffer, "1234567890");   
-   
-     print_7_segments_string(0, 60, character_buffer,  1, Blue_Color);
+      sprintf(character_buffer, "1234567890");  
+      print_7_segments_string(0, 70, character_buffer,  1, Blue_Color);
+      __delay_ms(1);
+     
+      sprintf(character_buffer, "God is here");
+      ST7735S_Print_String(Green_Color, character_buffer, 0, 90, 1);
+      __delay_ms(1);
+     
+        sprintf(character_buffer, "Dios cumplira");
+        ST7735S_Print_String(Green_Color, character_buffer, 0, 110, 1);
+        __delay_ms(1);
     
    
      
