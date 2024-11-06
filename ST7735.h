@@ -420,8 +420,8 @@ void Set_Display_Cursor(uint8_t X_s, uint8_t Y_s, uint8_t X_end, uint8_t Y_end)
     }
     else if(TFT_MODEL== ST7735_128_x_160)
     {
-     PMouse_data->Position.x_start = X_s;  
-     PMouse_data->Position.y_start = Y_s;
+     PMouse_data->Position.x_start = 2+X_s;  
+     PMouse_data->Position.y_start = 1+Y_s;
      PMouse_data->Position.x_end = PMouse_data->Position.x_start+X_end;
      PMouse_data->Position.y_end = PMouse_data->Position.y_start+Y_end;
        
