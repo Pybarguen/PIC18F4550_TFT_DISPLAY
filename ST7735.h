@@ -145,7 +145,7 @@ void write_color(int data)
     
     
 }
-
+/*
 //INIT 80 x 160 TFT Display
 void ST7735S_80_x_160_init() {
     
@@ -271,32 +271,43 @@ void ST7735S_80_x_160_init() {
        
     
 }
-
+*/
 //INIT ST7735 128 X 160 TFT Display
 void ST7735_128_x_160_init() {
     
      DCs = 0; 
+     CCS_ST7735 = 0;
     write_command(SWRESET);//software reset
+    CCS_ST7735 = 1;
      __delay_ms(150);
+     CCS_ST7735 = 0;
     write_command(SLPOUT);//sleep mode out
+    CCS_ST7735 = 1;
      __delay_ms(255);  
      
      
      DCs = 0; 
+     CCS_ST7735 = 0;
     write_command(FRMCTR1);//Frame rate control in normal mode
     DCs = 1; 
     write_data(0x01);
     write_data(0x2C);
-    write_data(0x2D);    
+    write_data(0x2D);
+    CCS_ST7735 = 1;
+    
+    
     DCs = 0; 
-   
+    CCS_ST7735 = 0;
     write_command(FRMCTR2);//Frame rate control in idle mode
     DCs = 1; 
     write_data(0x01);
     write_data(0x2C);
-    write_data(0x2D);    
+    write_data(0x2D); 
+    CCS_ST7735 = 1;
+    
+    
     DCs = 0; 
-   
+    CCS_ST7735 = 0;
     write_command(FRMCTR3);//Frame rate control in Partial mode
     DCs = 1; 
     write_data(0x01);
@@ -305,70 +316,104 @@ void ST7735_128_x_160_init() {
     write_data(0x01);
     write_data(0x2C);
     write_data(0x2D);
+    CCS_ST7735 = 1;
+    
+    
     DCs = 0; 
+    CCS_ST7735 = 0;
     write_command(INVCTR);//Display inversion control
     DCs = 1; 
     write_data(0x07);//Frame version in all modes
+    CCS_ST7735 = 1;
+    
+    
     DCs = 0; 
+    CCS_ST7735 = 0;
     write_command(PWCTR1);//Power control 1
     DCs = 1; 
     write_data(0x02);//4.7V
     write_data(0x02);//1.5uA
+    CCS_ST7735 = 1;
+    
+    
     DCs = 0; 
+    CCS_ST7735 = 0;
     write_command(PWCTR2);
     DCs = 1; 
     write_data(0xC5);//VGH VGL
+    CCS_ST7735 = 1;
+    
     
     DCs = 0; 
+    CCS_ST7735 = 0;
     write_command(PWCTR3);
     DCs = 1; 
     write_data(0x0A);//
     write_data(0x00);//
+    CCS_ST7735 = 1;
     
     DCs = 0; 
+    CCS_ST7735 = 0;
     write_command(PWCTR4);
     DCs = 1; 
     write_data(0x8A);//
     write_data(0x2A);//
+    CCS_ST7735 = 1;
+    
     
     DCs = 0; 
+    CCS_ST7735 = 0;
     write_command(PWCTR5);
     DCs = 1;
     write_data(0x8A);//
     write_data(0xEE);//
+    CCS_ST7735 = 1;
     
       
     DCs = 0;  
+    CCS_ST7735 = 0;
     write_command(INVOFF);//  
-     write_command(COLMOD);//RGB pixel format
+    write_command(COLMOD);//RGB pixel format
     DCs = 1;
     write_data(0x05);//16bit pixel
+    CCS_ST7735 = 1;
     
-    DCs = 0;    
+    DCs = 0;  
+    CCS_ST7735 = 0;
     write_command(MADCTL);//Memory access control
     DCs = 1;
     //write_data(0b01001000);//RGB mode   
      write_data(0b11110100);//RGB mode
     //write_data(0b11011000); //for image
-    
+    CCS_ST7735 = 1;
       __delay_ms(10);
+      
+      
       DCs = 0; 
+      CCS_ST7735 = 0;
       write_command(GMCTRP1);//RGB pixel format 
       DCs = 1;
        write_data(0x02);write_data(0x1C);write_data(0x07);write_data(0x12);
        write_data(0x37);write_data(0x32);write_data(0x29);write_data(0x2D);
        write_data(0x29);write_data(0x25);write_data(0x2B);write_data(0x39);
        write_data(0x00);write_data(0x01);write_data(0x03);write_data(0x10);
+       CCS_ST7735 = 1;
+       
        
        DCs = 0;
+       CCS_ST7735 = 0;
        write_command(GMCTRN1);//RGB pixel format 
        DCs = 1;
        write_data(0x03);write_data(0x1D);write_data(0x07);write_data(0x06);
        write_data(0x2E);write_data(0x2C);write_data(0x29);write_data(0x2D);
        write_data(0x2E);write_data(0x2E);write_data(0x37);write_data(0x3F);
        write_data(0x00);write_data(0x00);write_data(0x02);write_data(0x10);
+       CCS_ST7735 = 1;
+       
+       
        
         DCs = 0;
+        CCS_ST7735 = 0;
        write_command(NORON);//
         __delay_ms(10);
        write_command(DISPON);//
@@ -378,7 +423,7 @@ void ST7735_128_x_160_init() {
         write_command(VMCTR1);
         DCs = 1;
         write_data(0x0E);//
-       
+       CCS_ST7735 = 1;
       
     
      
@@ -392,8 +437,8 @@ void ST7735S_Init(enum DISPLAY_MODEL data)
     TFT_MODEL  = data;
     if(data == ST7735S_80_x_160)
     {
-        ST7735S_80_x_160_init();
-       
+        //ST7735S_80_x_160_init();
+       ;;
         
     }
     else if(data == ST7735_128_x_160)
@@ -428,6 +473,7 @@ void Set_Display_Cursor(uint8_t X_s, uint8_t Y_s, uint8_t X_end, uint8_t Y_end)
     
     }
   DCs = 0;
+  CCS_ST7735 = 0;
   write_command(CASET);
   DCs = 1;
   write_data(0);
@@ -445,7 +491,7 @@ void Set_Display_Cursor(uint8_t X_s, uint8_t Y_s, uint8_t X_end, uint8_t Y_end)
    
   DCs = 0;
   write_command(RAMWR); // Write to RAM
-  CCS = 0;
+  CCS_ST7735 = 0; 
   DCs = 1; 
      
 }
@@ -763,7 +809,7 @@ void ST7735_Animating_ProgressBar( ProgressBar *ProgressBarObj, unsigned long va
 
         DCs = 0;
         write_command(RAMWR); // Write to RAM
-        CCS = 0;
+        CCS_ST7735 = 0; 
         DCs = 1; 
        
   

@@ -65,7 +65,7 @@
 
 
 
-#define CCS LATBbits.LATB2
+#define CCS_ST7735 LATBbits.LATB2
 #define DCs  LATBbits.LATB3
 #define RES LATBbits.LATB4
 
@@ -112,7 +112,7 @@ void main(void)
    
    __delay_ms(10);
     RES = 1;
-    CCS = 1;
+    CCS_ST7735 = 1; 
     DCs = 0;
    
    ST7735S_Init(ST7735_128_x_160);
@@ -142,45 +142,45 @@ void main(void)
         ST7735S_Print_String(Green_Color, character_buffer, 0, 110, 1);
         __delay_ms(1);
     */
-     sprintf(character_buffer, "Purple");
+     sprintf(character_buffer, "%s", "Purple");
         ST7735S_Print_String(Purple_Color, character_buffer, 0, 0, 1);
         __delay_ms(1);
         
-           sprintf(character_buffer, "LightBlue");
+           sprintf(character_buffer, "%s", "LightBlue");
         ST7735S_Print_String(LightBlue_Color, character_buffer, 0, 10, 1);
         __delay_ms(1);
         
-             sprintf(character_buffer, "GreenApple");
+             sprintf(character_buffer, "%s", "GreenApple");
         ST7735S_Print_String(GreenApple_Color, character_buffer, 0, 20, 1);
         __delay_ms(1);
    
    
-           sprintf(character_buffer, "Orange");
+           sprintf(character_buffer, "%s", "Orange");
         ST7735S_Print_String(Orange_Color, character_buffer, 0, 30, 1);
         __delay_ms(1);
         
-           sprintf(character_buffer, "Pink");
+           sprintf(character_buffer, "%s", "Pink");
         ST7735S_Print_String(Pink_Color, character_buffer, 0, 40, 1);
         __delay_ms(1);
         
-          sprintf(character_buffer, "Yellow");
+          sprintf(character_buffer, "%s", "Yellow");
         ST7735S_Print_String(Yellow_Color, character_buffer, 0, 50, 1);
         __delay_ms(1);
         
-          sprintf(character_buffer, "Gray");
+          sprintf(character_buffer, "%s", "Gray");
         ST7735S_Print_String(Gray_Color, character_buffer, 0, 60, 1);
         __delay_ms(1);
         
-          sprintf(character_buffer, "Brown");
+          sprintf(character_buffer, "%s", "Brown");
         ST7735S_Print_String(Brown_Color, character_buffer, 0, 70, 1);
         __delay_ms(1);
         
-            sprintf(character_buffer, "WineRed");
+            sprintf(character_buffer, "%s", "WineRed");
         ST7735S_Print_String(WineRed_Color, character_buffer, 0, 80, 1);
         __delay_ms(1);
         
         
-         sprintf(character_buffer, "Silver");//Error en letra S
+         sprintf(character_buffer, "%s", "Silver");//Error en letra S
         ST7735S_Print_String(Silver_Color, character_buffer, 0, 90, 1);
         __delay_ms(1);
         
